@@ -31,6 +31,7 @@ import HomePage from '../pages/login/HomePage';
 import SendLoginOtp from '../pages/login/SendLoginOtp';
 import LoginOtp from '../pages/login/LoginOtp';
 import QR from '../pages/comp/QR';
+import ViewFeedback from '../pages/comp/ViewFeedback';
 
 
 
@@ -85,6 +86,7 @@ const AppNavigation = () => {
         <Stack.Screen name='EditLibrary' component={EditLibrary} options={{title:'Edit '}}/>
         <Stack.Screen name='viewTotal' component={ViewTotal} options={{title:'Total Collection'}}/>
         <Stack.Screen name='QR' component={QR} options={{title:''}}/>
+        <Stack.Screen name='viewfeedback' component={ViewFeedback} options={{title:''}}/>
      
         </>}
         </Stack.Navigator>  
