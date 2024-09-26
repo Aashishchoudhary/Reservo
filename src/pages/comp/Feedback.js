@@ -46,8 +46,10 @@ const Feedback = () => {
       }>
       {data?.map(item => (
         <View key={item.id} style={styles.dataContainer}>
-          <Text style={styles.text}>{item.message.slice(0, 100) }=={item.id}</Text>
+          <Text style={styles.text}>{item.message.slice(0, 100) }</Text>
           <TouchableOpacity
+          disabled={ item.resolved
+            ?false:true}
             onPress={() =>
               item.resolved
                 ? navigation.navigate('viewfeedback', {id: item.id})

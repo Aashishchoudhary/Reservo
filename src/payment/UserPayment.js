@@ -31,7 +31,7 @@ import {url} from '../store/url'
                 'razorpay_order_id' : data.razorpay_order_id,
                 'razorpay_payment_id': data.razorpay_payment_id,
                 'razorpay_signature': data.razorpay_signature,
-                'amount':res.amount
+                'amount':res.amount/100
                         
             }, {
                 headers: {
@@ -82,7 +82,7 @@ import {url} from '../store/url'
                 'razorpay_order_id' : data.razorpay_order_id,
                 'razorpay_payment_id': data.razorpay_payment_id,
                 'razorpay_signature': data.razorpay_signature,
-                'amount':res.amount
+                'amount':res.amount/100
                         
             }, {
                 headers: {

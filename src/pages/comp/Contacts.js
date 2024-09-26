@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View ,Text ,Image ,TouchableOpacity ,Linking } from 'react-native';
+import { StyleSheet, View ,Text ,Image ,TouchableOpacity ,Linking,Alert } from 'react-native';
 import call from '../../image/call.png'
 import whatsapp from '../../image/whatsapp.png'
 import email from '../../image/email.png'
@@ -24,9 +24,9 @@ const Contacts = () => {
             <Text style={styles.title}>Contact Us:</Text>
             <Text style={styles.textPara}>For inquires or help , you can contact us.{"\n"}We'll gad to help you</Text>
             <View style={styles.contactConatiner}>
-            <TouchableOpacity style={styles.contact} onPress={()=>Linking.openURL('tel:6367032851')}><Image style={styles.img} source={call}/><Text style={styles.contactText}>Call us on +91 6367032851</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.contact} onPress={()=>Linking.openURL('tel:6367032851')}><Image style={styles.img} source={call}/><Text style={styles.contactText}>Call us on +916367032851</Text></TouchableOpacity>
             <TouchableOpacity style={styles.contact} onPress={()=>initiateWhatsApp()}><Image style={styles.img} source={whatsapp}/><Text style={styles.contactText}>whatsap us on (+91)6367032851</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.contact} onPress={()=>Linking.openURL('mailto:aashishchoudhary@gmail.com')}><Image style={styles.img} source={email}/><Text style={styles.contactText}>Email us on aashish@gmial.com</Text></TouchableOpacity></View>
+            <TouchableOpacity style={styles.contact} onPress={()=>Linking.openURL('mailto:aashishchoudhary2002@gmail.com')}><Image style={styles.img} source={email}/><Text style={styles.contactText}>Email us on aashish@gmial.com</Text></TouchableOpacity></View>
             
         </View>
     );

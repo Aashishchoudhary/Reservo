@@ -23,12 +23,10 @@ import DatePicker from 'react-native-date-picker';
 import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import {setLoading, setChecking} from '../../store/auth/authSlice';
 
-
 import {useNavigation} from '@react-navigation/native';
-import {url} from '../../store/url'
+import {url} from '../../store/url';
 const AddReservation = ({route}) => {
-
- const navigation = useNavigation();
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const ref = useRef();
 
@@ -36,9 +34,8 @@ const AddReservation = ({route}) => {
     ref.current.capture().then(uri => {
       CameraRoll.save(uri, {type: 'photo'});
     });
-   
-    
-    Alert.alert("Downloaded")
+
+    Alert.alert('Downloaded');
   };
 
   const {Libid, SeatNum} = route.params;
@@ -47,8 +44,7 @@ const AddReservation = ({route}) => {
   const userId = useSelector(state => state.auth.user);
 
   const [data, setData] = useState([]);
-  
-  
+
   const [name, setName] = useState('');
   const [mobile, setmobile] = useState('');
   const [stdate, setstdate] = useState(new Date());
@@ -62,7 +58,6 @@ const AddReservation = ({route}) => {
 
   // chat room creation  and qr code
   const createRoom = async () => {
-   
     try {
       // Call signatureGenration() and handle potential errors
       const response = await axios.get(`${url}/create-signature/`, {
@@ -74,22 +69,19 @@ const AddReservation = ({route}) => {
         },
       });
       const res = await response.data;
-      
-  
+
       // Construct the complete URL with all necessary parameters
       const url = `${url}/chat-page/?libid=${Libid}&id=${SeatNum}&user_id=${userId['user_id']}&sign=${res['sign']}`;
-   
+
       // Perform navigation using navigation.navigate
-      navigation.navigate('QR', { data: url });
+      navigation.navigate('QR', {data: url});
     } catch (error) {
       // Handle errors gracefully, e.g., display an error message or retry logic
       console.error('Error creating room:', error);
       // You can add error handling specific to your application's requirements
     }
   };
-  
- 
-  
+
   // image picker
 
   const getData = async () => {
@@ -106,7 +98,7 @@ const AddReservation = ({route}) => {
         },
       );
       const res = await response.data;
-      console.log('end date', res);
+
       setData(res);
 
       setDob(
@@ -154,7 +146,7 @@ const AddReservation = ({route}) => {
         },
       );
       const res = await response.data;
-      console.log('data ', res);
+
       imageVerify();
       console.warn('Data saved');
       getData();
@@ -164,17 +156,14 @@ const AddReservation = ({route}) => {
   };
   const deleteData = async () => {
     try {
-      await axios.delete(
-        `${url}/view-seat/${Libid}/${SeatNum}/`,
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
+      await axios.delete(`${url}/view-seat/${Libid}/${SeatNum}/`, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
 
-            Authorization: 'Bearer ' + String(user.access),
-          },
+          Authorization: 'Bearer ' + String(user.access),
         },
-      );
+      });
       console.warn('Data Deleted');
       getData();
     } catch (err) {
@@ -183,22 +172,17 @@ const AddReservation = ({route}) => {
   };
   const patchData = async () => {
     try {
-      await axios.patch(
-        `${url}/view-seat/${Libid}/${SeatNum}/`,
-        updateData,
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
+      await axios.patch(`${url}/view-seat/${Libid}/${SeatNum}/`, updateData, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
 
-            Authorization: 'Bearer ' + String(user.access),
-          },
+          Authorization: 'Bearer ' + String(user.access),
         },
-      );
+      });
 
-      console.warn('Data saved');
+      Alert.alert('Data saved');
       getData();
-      console.log(updateData);
     } catch (err) {
       console.log(err);
     }
@@ -227,7 +211,7 @@ const AddReservation = ({route}) => {
   };
 
   const date = new Date().toDateString();
-  console.log(date ,new Date())
+
   const selectGender = [
     {
       label: 'Male',
@@ -240,9 +224,15 @@ const AddReservation = ({route}) => {
   return (
     <KeyboardAwareScrollView>
       <View>
-      {!data?.seat_data?.length &&<View style={styles.btncontainer}><TouchableOpacity style={styles.btnbutton} onPress={() => createRoom()}>
-        <Text style={styles.btnbuttonText}>Show QR</Text>
-      </TouchableOpacity></View>}
+        {!data?.seat_data?.length && (
+          <View style={styles.btncontainer}>
+            <TouchableOpacity
+              style={styles.btnbutton}
+              onPress={() => createRoom()}>
+              <Text style={styles.btnbuttonText}>Show QR</Text>
+            </TouchableOpacity>
+          </View>
+        )}
         {data?.seat_data?.map(item => (
           <View key={item.id}>
             <ViewShot
@@ -253,57 +243,57 @@ const AddReservation = ({route}) => {
                 format: 'jpg',
                 quality: 1,
               }}>
-              <View style={styles.header}>
-                <Text style={styles.title}>Invoice</Text>
-              </View>
-              <View style={styles.invoiceInfoContainer}>
-                <View style={styles.invoiceInfo}>
-                  <Text style={styles.label}>Library:</Text>
-                  <Text style={styles.total}>{data?.library_name}</Text>                  
-                </View>
-              </View>
-              <View style={styles.invoiceInfoContainer}>
-                <View style={styles.invoiceInfo}>
-                  <Text style={styles.label}>Contact:</Text>
-                  <Text style={styles.total}>{data?.mobile_number}</Text>                  
-                </View>
-              </View>
-              <View style={styles.invoiceInfoContainer}>
-                <View style={styles.invoiceInfo}>
-                  <Text style={styles.label}>Invoice Date:</Text>
-                  <Text style={styles.total}>{date}</Text>
-                </View>
-              </View>
-              <View style={styles.divider} />
-              <View style={styles.header}>
-                <Text style={styles.title}>Info</Text>
-                <View style={styles.customerInfo}>
-                  <Text style={styles.label}>Name:</Text>
-                  <Text style={styles.total}>{item.name}</Text>
-                </View>
-                <View style={styles.customerInfo}>
-                  <Text style={styles.label}>Mobile:</Text>
-                  <Text style={styles.total}>{item.mobile_number}</Text>
-                </View>
-                <View style={styles.customerInfo}>
-                  <Text style={styles.label}>Seat No:</Text>
-                  <Text style={styles.total}>{data?.seat_num}</Text>
-                </View>
-              </View>
+       
+      {/* Header with Company Info */}
+      <View style={styles.header}>
+        <Text style={styles.companyName}>{data.library_name.slice(0,1).toUpperCase()+data.library_name.slice(1)}</Text>
+        <Text style={styles.companyDetails}>{data.address}</Text>
+        <Text style={styles.companyDetails}>Phone: {data.mobile_number}</Text>
+        <Text style={styles.companyDetails}>Email: info@company.com</Text>
+      </View>
 
-              <View style={styles.divider} />
-              <View style={styles.customerInfo}>
-                <Text style={styles.label}>Amount:</Text>
-                <Text style={styles.total}>Rs-{item.amount}</Text>
-              </View>
-              <View style={styles.customerInfo}>
-                <Text style={styles.label}>Till Date:</Text>
-                <Text style={styles.total}>{item.end_date}</Text>
-              </View>
-              <View style={styles.divider} />
-              <View style={styles.nameText}>
-                <Text style={styles.nameText}>A aashish kalwaniya Product</Text>
-              </View>
+      {/* Invoice Details */}
+      <View style={styles.invoiceInfo}>
+        <View style={styles.invoiceHeader}>
+          <Text style={styles.invoiceTitle}>INVOICE</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.label}>Seat No. :</Text>
+          <Text style={styles.value}> {data.seat_num}</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.label}>Date:</Text>
+          <Text style={styles.value}>{new Date().toDateString()}</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.label}>Due Date:</Text>
+          <Text style={styles.value}>{item.end_date}</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.label}>Amount :</Text>
+          <Text style={styles.value}>₹ {item.amount}</Text>
+        </View>
+        
+      </View>
+
+      {/* Client Information */}
+      <View style={styles.clientInfo}>
+        <Text style={styles.sectionTitle}>Bill To:</Text>
+        <Text style={styles.clientName}>{item.name.slice(0,1).toUpperCase()+item.name.slice(1)}</Text>
+        <Text style={styles.clientDetails}>{item.adress}</Text>
+        <Text style={styles.clientDetails}>Phone: {item.mobile_number}</Text>
+        <Text style={styles.clientDetails}>Gender: {item.gender}</Text>
+      </View>
+
+      
+       
+
+      {/* Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Product made by Labeo</Text>
+      </View>
+    
+        
             </ViewShot>
             {item.photo && (
               <TouchableOpacity
@@ -318,9 +308,7 @@ const AddReservation = ({route}) => {
             {item.adharcard && (
               <TouchableOpacity
                 style={styles.imageBtn}
-                onPress={() =>
-                  btnImage(`${url}${item.adharcard}`)
-                }>
+                onPress={() => btnImage(`${url}${item.adharcard}`)}>
                 <Image
                   style={styles.image}
                   source={{uri: `${url}${item.adharcard}`}}
@@ -375,7 +363,7 @@ const AddReservation = ({route}) => {
             onChangeText={e => setAdress(e)}
           />
           <View style={styles.dateCon}>
-            <Text style={styles.label}>DOB</Text>
+            <Text style={styles.dateLabel}>DOB</Text>
             <DatePicker
               style={styles.dateBox}
               date={dob}
@@ -392,14 +380,14 @@ const AddReservation = ({route}) => {
           />
 
           <View style={styles.dateCon}>
-            <Text style={styles.label}>From</Text>
+            <Text style={styles.dateLabel}>From</Text>
             <DatePicker
               style={styles.dateBox}
               date={stdate}
               mode="date"
               onDateChange={setstdate}
             />
-            <Text style={styles.label}>To</Text>
+            <Text style={styles.dateLabel}>To</Text>
             <DatePicker
               style={styles.dateBox}
               date={endDate}
@@ -446,7 +434,7 @@ const AddReservation = ({route}) => {
           </View>
         </View>
       ) : (
-        <View>
+        <View style={styles.formContainer}>
           {data.seat_data?.map((x, index) => (
             <View key={index}>
               <TextInput
@@ -470,42 +458,42 @@ const AddReservation = ({route}) => {
                 value={mobile}
                 onChangeText={e => setmobile(e)}
                 placeholder={x.mobile_number.toString()}
+                color={mobile.length > 9 ? 'green' : 'red'}
               />
 
- 
-<View style={styles.dateCon}>
-            <Text style={styles.label}>DOB</Text>
-            <DatePicker
-              style={styles.dateBox}
-              date={dob}
-              mode="date"
-              onDateChange={setDob}
-            />
-          </View>
-          <View>
-            <Text>{gender}</Text>
-          </View>
-          <RadioButtonRN
-            data={selectGender}
-            selectedBtn={e => setGender(e['label'])}
-          />
+              <View style={styles.dateCon}>
+                <Text style={styles.dateLabel}>DOB</Text>
+                <DatePicker
+                  style={styles.dateBox}
+                  date={dob}
+                  mode="date"
+                  onDateChange={setDob}
+                />
+              </View>
+              <View>
+                <Text>{gender}</Text>
+              </View>
+              <RadioButtonRN
+                data={selectGender}
+                selectedBtn={e => setGender(e['label'])}
+              />
 
-          <View style={styles.dateCon}>
-            <Text style={styles.label}>From</Text>
-            <DatePicker
-              style={styles.dateBox}
-              date={stdate}
-              mode="date"
-              onDateChange={setstdate}
-            />
-            <Text style={styles.label}>To</Text>
-            <DatePicker
-              style={styles.dateBox}
-              date={endDate}
-              mode="date"
-              onDateChange={setEndDate}
-            />
-          </View>
+              <View style={styles.dateCon}>
+                <Text style={styles.dateLabel}>From</Text>
+                <DatePicker
+                  style={styles.dateBox}
+                  date={stdate}
+                  mode="date"
+                  onDateChange={setstdate}
+                />
+                <Text style={styles.dateLabel}>To</Text>
+                <DatePicker
+                  style={styles.dateBox}
+                  date={endDate}
+                  mode="date"
+                  onDateChange={setEndDate}
+                />
+              </View>
               <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
                 {x.photo?.length > 0 ? (
                   <Image
@@ -530,9 +518,7 @@ const AddReservation = ({route}) => {
                 {x.adharcard?.length > 0 ? (
                   <Image
                     source={{
-                      uri: adharcard
-                        ? adharcard.uri
-                        : `${url}${x.adharcard}`,
+                      uri: adharcard ? adharcard.uri : `${url}${x.adharcard}`,
                     }}
                     style={styles.image}
                   />
@@ -564,101 +550,124 @@ const AddReservation = ({route}) => {
           </TouchableOpacity>
         )}
       </View>
-      
-     
-      
     </KeyboardAwareScrollView>
   );
 };
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#f7f7f7',
     padding: 20,
-    backgroundColor: '#d0d3cd',
   },
-
   header: {
-    alignItems: 'left',
+    marginBottom: 20,
   },
-  title: {
+  companyName: {
     fontSize: 24,
     fontWeight: 'bold',
-    textDecorationLine: 'underline',
+    color: '#333',
   },
-  invoiceInfoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
+  companyDetails: {
+    fontSize: 14,
+    color: '#555',
   },
   invoiceInfo: {
-    flexDirection: 'row',
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
-
-  text: {
-    marginLeft: 5,
-  },
-  divider: {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    marginVertical: 20,
-  },
-  customerInfoContainer: {
-    marginTop: 20,
-  },
-  customerInfo: {
-    flexDirection: 'row',
-    marginVertical: 5,
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  invoiceHeader: {
     marginBottom: 10,
   },
-  itemsContainer: {
-    marginTop: 20,
+  invoiceTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
   },
-  item: {
+  detailsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 5,
-  },
-  itemName: {
-    fontSize: 16,
-  },
-  itemDetails: {},
-  itemTotal: {
-    fontWeight: 'bold',
-  },
-  totalContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    marginBottom: 5,
   },
   label: {
-    marginRight: 5, // Add some spacing between label and total
+    fontSize: 16,
+    color: '#555',
+  },
+  value: {
+    fontSize: 16,
+    color: '#000',
+  },
+  clientInfo: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#333',
+  },
+  clientName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  clientDetails: {
+    fontSize: 14,
+    color: '#555',
+  },
+  
+  footer: {
+    marginTop: 30,
+    alignItems: 'center',
+  },
+  footerText: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
   },
-  total: {
+
+  formContainer:{
+    margin:20,
+    borderRadius:20,
+    backgroundColor:"#fff",
+    shadowColor:'#000'
+
+  },
+ 
+ 
+  dateLabel: {
     fontSize: 16,
-    marginLeft: 15,
-    color: '#555',
-    fontWeight: 'bold',
+    color: 'white',
+    fontWeight:'bold',
+    textAlign:'left',
+    margin:20,
+    padding:10,
+    backgroundColor:'black',
+    width:80,
+    borderRadius:10 
   },
   image: {
-    width: '80%',
+    width: '100%',
     height: 300,
-    borderRadius: 8,
-    margin: 8,
-    marginLeft: 30,
+    borderRadius: 10,
   },
   input: {
     height: 40,
-    // borderWidth: 1,
+    
     borderBottomWidth: 1,
     borderBottomColor: 'black',
-    borderRadius: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     marginBottom: 16,
+    fontWeight:'bold',
+    fontSize:16,
+    color:'black'
+   
   },
   button: {
     backgroundColor: 'blue',
@@ -699,37 +708,36 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Center vertically
     marginVertical: 20, // Add some vertical margin for spacing
     // width: 200,
-    
   },
   date: {
     alignItems: 'center',
 
-    borderColor: 'black',
     borderWidth: 1,
     margin: 10,
   },
   dateBox: {
-    height: 30,
+    height: 40,
+    width:370,
+    backgroundColor:'#dddbd9',
   },
   btncontainer: {
     flexDirection: 'row', // Arrange buttons in a row
     justifyContent: 'space-between', // Distribute buttons evenly
-    marginTop: 20, // Add spacing
+    marginTop: 10, // Add spacing,
   },
   btnbutton: {
     backgroundColor: '#f5f5f5', // Light background
     borderRadius: 10, // Rounded corners
     padding: 10, // Margin around text
     flex: 1, // Make buttons equal width
-    backgroundColor:'#413e3e',
-    margin:5
-
+    backgroundColor: '#413e3e',
+    margin: 5,
   },
   btnbuttonText: {
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    color:"#FFFFFF"
+    color: '#FFFFFF',
   },
 });
 

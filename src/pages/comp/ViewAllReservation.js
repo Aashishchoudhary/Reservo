@@ -12,16 +12,15 @@ import {
   Alert,
 } from 'react-native';
 import axios from 'axios';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {setLoading} from '../../store/auth/authSlice';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {url} from '../../store/url'
 const ViewAllReservation = ({route}) => {
   const navigation = useNavigation();
   const {LibId} = route.params;
-  const dispatch = useDispatch();
+ 
   const [display, setDisplay] = useState(false);
   const user = useSelector(state => state.auth.authTokens);
   const [refreshing, setRefreshing] = useState(false);
@@ -105,6 +104,7 @@ const ViewAllReservation = ({route}) => {
     });
 
     const res = await response.data;
+    console.log(res)
     setFilteredDataSource(res);
     setMasterDataSource(res);
   };
@@ -148,7 +148,7 @@ const ViewAllReservation = ({route}) => {
           {display && filterFun()}
         </View>
         {filteredDataSource?.map(item => (
-          <TouchableOpacity key={item.id}
+          <TouchableOpacity key={item.seat_num}
             onPress={() =>
               navigation.navigate('EditAllRes', {
                 idt: item?.ser?.map(y => y.id), LibId:LibId

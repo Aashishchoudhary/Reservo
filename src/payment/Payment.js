@@ -4,14 +4,18 @@ import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useFocusEffect} from '@react-navigation/native';
-import {callRazorPayFunc_3_month , callRazorPay_one_month_Func} from './UserPayment';
+import {
+  callRazorPayFunc_3_month,
+  callRazorPay_one_month_Func,
+} from './UserPayment';
 
 import {url} from '../store/url';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 const Payment = () => {
   const user = useSelector(state => state.auth.authTokens);
   const [data, setData] = useState([]);
-  const [amount , setAmount] = useState()
+  const [amount, setAmount] = useState();
+  const [pastPayment, setPastPayment] = useState([]);
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = () => {
@@ -29,76 +33,105 @@ const Payment = () => {
         },
       });
       const res = await response.data;
-      setData(response.data);
-
-      console.log(res);
+      setData(res);
     } catch (err) {
       console.log('error', err);
     }
   };
 
-  const fetchAmount=async()=>{
-    const response = await axios.get(`${url}/payment/`,{
-      headers:{
-        Authorization:"Bearer "+ user.access
-      }
-    })
-    const res=await response.data
-    console.log('am' , res)
-    if(res.amount<70000){
-      setAmount(63636)
+  const fetchAmount = async () => {
+    const response = await axios.get(`${url}/payment/`, {
+      headers: {
+        Authorization: 'Bearer ' + user.access,
+      },
+    });
+    const res = await response.data;
+
+    if (res.amount < 70000) {
+      setAmount(63636);
+    } else {
+      setAmount(res.amount);
     }
-    else{
-      setAmount(res.amount)
-    }
-  }
+  };
+
+  const fetchPastPayments = async () => {
+    const response = await axios.get(`${url}/subscription-history/`, {
+      headers: {
+        Authorization: 'Bearer ' + user.access,
+      },
+    });
+    const res = await response.data;
+    setPastPayment(res);
+  };
   useFocusEffect(
     useCallback(() => {
       fetchData();
-fetchAmount()
+      fetchAmount();
+      fetchPastPayments();
       return () => {
         // Perform any cleanup here when the component is unmounted or loses focus
       };
     }, [refreshing]),
   );
-  console.log(typeof data);
+
   return (
     <KeyboardAwareScrollView
       style={styles.container}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      {data?.map(item=>(<View key={item.id} style={styles.paymentContainer}>
-        <View style={styles.payment}>
-          <Text style={styles.totalAmount}>₹ {item.amount}</Text>
-          <Text style={item.active?styles.status:styles.due}>{item.active?"Active":"Payment Due"}</Text>
+      {data?.map(item => (
+        <View key={item.id} style={styles.paymentContainer}>
+          <View style={styles.payment}>
+            <Text style={styles.totalAmount}>₹ {item.amount}</Text>
+            <Text style={item.active ? styles.status : styles.due}>
+              {item.active ? 'Active' : 'Payment Due'}
+            </Text>
+          </View>
+          <View style={styles.paymentItem}>
+            <Text style={styles.date}>Paid on </Text>
+            <Text style={styles.plan}>{item.start_date}</Text>
+          </View>
+          <View style={styles.paymentItem}>
+            <Text style={styles.date}>Next date </Text>
+            <Text style={styles.plan}>{item.expire_date}</Text>
+          </View>
         </View>
-        <View style={styles.paymentItem}>
-          <Text style={styles.date}>Paid on </Text>
-          <Text style={styles.plan}>{item.start_date}</Text>
-        </View>
-        <View style={styles.paymentItem}>
-          <Text style={styles.date}>Next date </Text>
-          <Text style={styles.plan}>{item.expire_date}</Text>
-        </View>
-      </View>))}
+      ))}
 
       <View style={styles.cardContainer}>
-      <TouchableOpacity
-        style={styles.card}
-        onPress={()=>callRazorPay_one_month_Func(user)}
-      >
-        <Text style={styles.cardTitle}>One Month</Text>
-        <Text style={styles.cardDescription}>₹ {Math.round(amount *0.0011)} </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.card}
-        onPress={()=>callRazorPayFunc_3_month(user)}
-      >
-        <Text style={styles.cardTitle}>3 Months</Text>
-        <Text style={styles.cardDescription}>₹ {Math.round(amount *0.0031)}</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => callRazorPay_one_month_Func(user)}>
+          <Text style={styles.cardTitle}>One Month</Text>
+          <Text style={styles.cardDescription}>
+            ₹ {Math.round(amount * 0.0011)}{' '}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => callRazorPayFunc_3_month(user)}>
+          <Text style={styles.cardTitle}>3 Months</Text>
+          <Text style={styles.cardDescription}>
+            ₹ {Math.round(amount * 0.0031)}
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.pastConatiner}>
+        <Text style={styles.pastTitle}>History</Text>
+        {pastPayment?.map(item => (
+          <View style={styles.pastPaymentContainer}>
+            <View style={styles.pastPaymentItem}>
+              <Text style={styles.pastPaymentText}>Paid on</Text>
+              <Text style={styles.pastPaymentText}>{item.payment_date}</Text>
+            </View>
+            <View style={styles.pastPaymentItem}>
+              <Text style={styles.pastPaymentText}>₹ {item.amount}</Text>
+              <Text style={styles.pastPaymentText}>{item.payment_id}</Text>
+            </View>
+          </View>
+        ))}
+      </View>
     </KeyboardAwareScrollView>
   );
 };
@@ -176,13 +209,13 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1, // Equal width for each card
-    backgroundColor: '#fff', // Card background color
+    backgroundColor: 'black', // Card background color
     borderRadius: 15, // Rounded corners
     padding: 20, // Padding inside card
     marginHorizontal: 10, // Space between cards
     alignItems: 'center', // Center content
     shadowColor: '#000', // Shadow color
-    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    shadowOffset: {width: 0, height: 2}, // Shadow offset
     shadowOpacity: 0.2, // Shadow transparency
     shadowRadius: 5, // Shadow blur radius
     elevation: 5, // Android elevation for shadow
@@ -190,12 +223,37 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18, // Font size for title
     fontWeight: 'bold', // Bold text
-    color: '#333', // Dark text color
+    color: 'white', // Dark text color
     marginBottom: 10, // Space below title
   },
   cardDescription: {
     fontSize: 16, // Font size for description
-    color: '#666', // Lighter text color
+    color: 'white', // Lighter text color
+  },
+  pastPaymentContainer: {
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: 'black',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  pastPaymentItem: {
+    margin: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  pastPaymentText: {
+    color: 'white',
+  },
+  pastConatiner: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  pastTitle: {
+    marginLeft: 15,
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
