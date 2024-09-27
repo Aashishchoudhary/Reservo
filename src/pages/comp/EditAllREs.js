@@ -15,7 +15,7 @@ import {
   TextInput,
 } from 'react-native';
 import RadioButtonRN from 'radio-buttons-react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import ViewShot from 'react-native-view-shot';
 import DatePicker from 'react-native-date-picker';
@@ -26,7 +26,7 @@ import {url} from '../../store/url';
 const EditAllREs = ({route}) => {
   const user = useSelector(state => state.auth.authTokens);
   const userId = useSelector(state => state.auth.user);
-  const dispatch = useDispatch();
+ 
   const {idt, LibId} = route.params;
 
   const navigation = useNavigation();
@@ -116,7 +116,6 @@ const EditAllREs = ({route}) => {
         },
       });
       const res = await response.data;
-      console.log('resss', res);
       setData(res);
       setDob(res.data[0]['dob'] ? new Date(res.data[0]['dob']) : new Date());
       setEndDate(
@@ -124,11 +123,11 @@ const EditAllREs = ({route}) => {
           ? new Date(res.data[0]['end_date'])
           : new Date(),
       );
-      // setstdate(res.data[0]['start_date']? new Date(res.data[0]['start_date']):new Date())
-      dispatch(setChecking(true));
+      
+     
     } catch (err) {
-      console.log(err.response.data);
-      Alert.alert('something went wrong please try agian later');
+     
+     console.log(err)
     }
   };
   const patchData = async () => {
@@ -171,7 +170,7 @@ const EditAllREs = ({route}) => {
   };
   const deleteData = async () => {
     try {
-      const response = await axios.delete(
+      await axios.delete(
         `${url}/edit-reservation-view/${idt}/`,
         {
           headers: {
@@ -180,8 +179,8 @@ const EditAllREs = ({route}) => {
           },
         },
       );
-      const res = await response.data;
-      console.log(response);
+     
+    Alert.alert("Data Deleted")
     } catch (err) {
       Alert.alert('something went wrong please try agian later');
     }
@@ -189,7 +188,7 @@ const EditAllREs = ({route}) => {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(setLoading(true));
+   
       fetchData();
       return () => {
         // Perform any cleanup here when the component is unmounted or loses focus
@@ -320,7 +319,7 @@ const EditAllREs = ({route}) => {
       </View>
 
       {data?.data?.length < 1 ? (
-        <View>
+        <View style={styles.formContainer}>
           <TextInput
             style={styles.input}
             value={name}
@@ -333,6 +332,7 @@ const EditAllREs = ({route}) => {
             value={mobile}
             placeholder="Mobile number....."
             onChangeText={e => setmobile(e)}
+            color={mobile.length > 9 ? 'green' : 'red'}
           />
           <TextInput
             style={styles.input}
@@ -379,12 +379,8 @@ const EditAllREs = ({route}) => {
               onDateChange={setEndDate}
             />
           </View>
-          <View>
-            <Text>{adharcard.uri}</Text>
-          </View>
-          <View>
-            <Text>{photo.uri}</Text>
-          </View>
+         
+          
           <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
             {
               <Image

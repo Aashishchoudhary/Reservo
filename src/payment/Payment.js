@@ -120,7 +120,7 @@ const Payment = () => {
       <View style={styles.pastConatiner}>
         <Text style={styles.pastTitle}>History</Text>
         {pastPayment?.map(item => (
-          <View style={styles.pastPaymentContainer}>
+          <View key={item.id} style={styles.pastPaymentContainer}>
             <View style={styles.pastPaymentItem}>
               <Text style={styles.pastPaymentText}>Paid on</Text>
               <Text style={styles.pastPaymentText}>{item.payment_date}</Text>

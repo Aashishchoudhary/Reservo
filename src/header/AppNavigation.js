@@ -26,7 +26,7 @@ import ViewPrevious from '../pages/comp/ViewPrevious';
 import EditLibrary from '../pages/comp/EditLibrary';
 import ViewHalfTimer from '../pages/comp/ViewHalfTimer';
 import PreviousStudent from '../pages/comp/PreviousStudent';
-import ViewTotal from '../pages/comp/ViewTotal';
+
 import HomePage from '../pages/login/HomePage';
 import SendLoginOtp from '../pages/login/SendLoginOtp';
 import LoginOtp from '../pages/login/LoginOtp';
@@ -84,7 +84,7 @@ const AppNavigation = () => {
         <Stack.Screen name='previous' component={PreviousStudent} options={{title:'Previous '}}/>
         <Stack.Screen name='viewPrevious' component={ViewPrevious} options={{title:'View'}}/>
         <Stack.Screen name='EditLibrary' component={EditLibrary} options={{title:'Edit '}}/>
-        <Stack.Screen name='viewTotal' component={ViewTotal} options={{title:'Total Collection'}}/>
+        
         <Stack.Screen name='QR' component={QR} options={{title:''}}/>
         <Stack.Screen name='viewfeedback' component={ViewFeedback} options={{title:''}}/>
      

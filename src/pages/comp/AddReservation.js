@@ -336,7 +336,7 @@ const AddReservation = ({route}) => {
       </View>
 
       {data?.seat_data?.length < 1 ? (
-        <View>
+        <View style={styles.formContainer}>
           <TextInput
             style={styles.input}
             value={name}
@@ -395,12 +395,8 @@ const AddReservation = ({route}) => {
               onDateChange={setEndDate}
             />
           </View>
-          <View>
-            <Text>{adharcard.uri}</Text>
-          </View>
-          <View>
-            <Text>{photo.uri}</Text>
-          </View>
+          
+        
           <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
             {
               <Image

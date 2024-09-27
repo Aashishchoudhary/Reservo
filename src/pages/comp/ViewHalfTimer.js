@@ -157,61 +157,61 @@ const ViewHalfTimer = ({route}) => {
               style={styles.container}
               ref={ref}
               options={{
-                fileName: 'Your-File-Name',
+                fileName: `${item.name}`,
                 format: 'jpg',
                 quality: 1,
               }}>
-              <View style={styles.header}>
-                <Text style={styles.title}>Invoice</Text>
-              </View>
-              <View style={styles.invoiceInfoContainer}>
-                <View style={styles.invoiceInfo}>
-                  <Text style={styles.label}>Library:</Text>
-                  <Text style={styles.total}>{data?.library_name}</Text>                  
-                </View>
-              </View>
-              <View style={styles.invoiceInfoContainer}>
-                <View style={styles.invoiceInfo}>
-                  <Text style={styles.label}>Contact:</Text>
-                  <Text style={styles.total}>{data?.mobile_number}</Text>                  
-                </View>
-              </View>
-              <View style={styles.invoiceInfoContainer}>
-                <View style={styles.invoiceInfo}>
-                  <Text style={styles.label}>Invoice Date:</Text>
-                  <Text style={styles.total}>{date}</Text>
-                </View>
-              </View>
-              <View style={styles.divider} />
-              <View style={styles.header}>
-                <Text style={styles.title}>Info</Text>
-                <View style={styles.customerInfo}>
-                  <Text style={styles.label}>Name:</Text>
-                  <Text style={styles.total}>{item.name}</Text>
-                </View>
-                <View style={styles.customerInfo}>
-                  <Text style={styles.label}>Mobile:</Text>
-                  <Text style={styles.total}>{item.mobile_number}</Text>
-                </View>
-                <View style={styles.customerInfo}>
-                  <Text style={styles.label}>Seat No:</Text>
-                  <Text style={styles.total}>{data?.seat_num}</Text>
-                </View>
-              </View>
+       
+      {/* Header with Company Info */}
+      <View style={styles.header}>
+        <Text style={styles.companyName}>{data.library_name.slice(0,1).toUpperCase()+data.library_name.slice(1)}</Text>
+        <Text style={styles.companyDetails}>{data.address}</Text>
+        <Text style={styles.companyDetails}>Phone: {data.mobile_number}</Text>
+        <Text style={styles.companyDetails}>Email: info@company.com</Text>
+      </View>
 
-              <View style={styles.divider} />
-              <View style={styles.customerInfo}>
-                <Text style={styles.label}>Amount:</Text>
-                <Text style={styles.total}>Rs-{item.amount}</Text>
-              </View>
-              <View style={styles.customerInfo}>
-                <Text style={styles.label}>Till Date:</Text>
-                <Text style={styles.total}>{item.end_date}</Text>
-              </View>
-              <View style={styles.divider} />
-              <View style={styles.nameText}>
-                <Text style={styles.nameText}>A aashish kalwaniya Product</Text>
-              </View>
+      {/* Invoice Details */}
+      <View style={styles.invoiceInfo}>
+        <View style={styles.invoiceHeader}>
+          <Text style={styles.invoiceTitle}>INVOICE</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.label}>Seat No. :</Text>
+          <Text style={styles.value}> None</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.label}>Date:</Text>
+          <Text style={styles.value}>{new Date().toDateString()}</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.label}>Due Date:</Text>
+          <Text style={styles.value}>{item.end_date}</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.label}>Amount :</Text>
+          <Text style={styles.value}>₹ {item.amount}</Text>
+        </View>
+        
+      </View>
+
+      {/* Client Information */}
+      <View style={styles.clientInfo}>
+        <Text style={styles.sectionTitle}>Bill To:</Text>
+        <Text style={styles.clientName}>{item.name.slice(0,1).toUpperCase()+item.name.slice(1)}</Text>
+        <Text style={styles.clientDetails}>{item.adress}</Text>
+        <Text style={styles.clientDetails}>Phone: {item.mobile_number}</Text>
+        <Text style={styles.clientDetails}>Gender: {item.gender}</Text>
+      </View>
+
+      
+       
+
+      {/* Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Product made by Labeo</Text>
+      </View>
+    
+        
             </ViewShot>
             {item.photo && (
               <TouchableOpacity
@@ -226,9 +226,7 @@ const ViewHalfTimer = ({route}) => {
             {item.adharcard && (
               <TouchableOpacity
                 style={styles.imageBtn}
-                onPress={() =>
-                  btnImage(`${url}${item.adharcard}`)
-                }>
+                onPress={() => btnImage(`${url}${item.adharcard}`)}>
                 <Image
                   style={styles.image}
                   source={{uri: `${url}${item.adharcard}`}}
@@ -360,81 +358,103 @@ const ViewHalfTimer = ({route}) => {
 };
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#f7f7f7',
     padding: 20,
-    backgroundColor:'#d0d3cd',
-    
-    },
-    
-    
-    header: {
-    alignItems: 'left',
-    },
-    title: {
+  },
+  header: {
+    marginBottom: 20,
+  },
+  companyName: {
     fontSize: 24,
     fontWeight: 'bold',
-    textDecorationLine:'underline'
-    },
-invoiceInfoContainer: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  marginTop: 20,
-},
-invoiceInfo: {
-  flexDirection: 'row',
-},
-
-text: {
-  marginLeft: 5,
-},
-divider: {
-  borderBottomColor: 'black',
-  borderBottomWidth: 1,
-  marginVertical: 20,
-},
-customerInfoContainer: {
-  marginTop: 20,
-},
-customerInfo: {
-  flexDirection: 'row',
-  marginVertical: 5,
-},
-subtitle: {
-  fontSize: 18,
-  fontWeight: 'bold',
-  marginBottom: 10,
-},
-itemsContainer: {
-  marginTop: 20,
-},
-item: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  marginVertical: 5,
-},
-itemName: {
-  fontSize: 16,
-},
-itemDetails: {},
-itemTotal: {
-  fontWeight: 'bold',
+    color: '#333',
+  },
+  companyDetails: {
+    fontSize: 14,
+    color: '#555',
+  },
+  invoiceInfo: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  invoiceHeader: {
+    marginBottom: 10,
+  },
+  invoiceTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  detailsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+  label: {
+    fontSize: 16,
+    color: '#555',
+  },
+  value: {
+    fontSize: 16,
+    color: '#000',
+  },
+  clientInfo: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#333',
+  },
+  clientName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  clientDetails: {
+    fontSize: 14,
+    color: '#555',
+  },
   
-},
-totalContainer: {
-  flexDirection: 'row',
-  alignItems: 'center',
-},
-label: {
-  marginRight: 5, // Add some spacing between label and total
-  fontSize: 16,
-  fontWeight: 'bold',
-  color: '#333',
-},
-total: {
-  fontSize: 16,
-  marginLeft:15,
-  color: '#555',
-  fontWeight: 'bold',
-},
+  footer: {
+    marginTop: 30,
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+
+  formContainer:{
+    margin:20,
+    borderRadius:20,
+    backgroundColor:"#fff",
+    shadowColor:'#000'
+
+  },
+ 
+ 
+  dateLabel: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight:'bold',
+    textAlign:'left',
+    margin:20,
+    padding:10,
+    backgroundColor:'black',
+    width:80,
+    borderRadius:10 
+  },
 image: {
   width: '80%',
   height: 300,

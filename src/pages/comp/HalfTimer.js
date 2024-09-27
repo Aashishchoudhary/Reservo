@@ -224,90 +224,100 @@ const HalfTimer = ({route}) => {
       </View>
 
       {check && (
+        <View style={styles.formContainer}>
+        <TextInput
+          style={styles.input}
+          value={name}
+          placeholder="name....."
+          onChangeText={e => setName(e)}
+        />
+
+        <TextInput
+          style={styles.input}
+          value={mobile}
+          placeholder="Mobile number....."
+          onChangeText={e => setmobile(e)}
+          color={mobile.length > 9 ? 'green' : 'red'}
+        />
+        <TextInput
+          style={styles.input}
+          value={amount}
+          placeholder="amount....."
+          onChangeText={e => setAmount(e)}
+        />
+        <TextInput
+          style={styles.input}
+          value={adress}
+          placeholder="address....."
+          onChangeText={e => setAdress(e)}
+        />
+        <View style={styles.dateCon}>
+          <Text style={styles.dateLabel}>DOB</Text>
+          <DatePicker
+            style={styles.dateBox}
+            date={dob}
+            mode="date"
+            onDateChange={setDob}
+          />
+        </View>
         <View>
-          <TextInput
-            style={styles.input}
-            value={name}
-            placeholder="Name......."
-            onChangeText={e => setName(e)}
-          />
+          <Text>{gender}</Text>
+        </View>
+        <RadioButtonRN
+          data={selectGender}
+          selectedBtn={e => setGender(e['label'])}
+        />
 
-          <TextInput
-            style={styles.input}
-            value={amount}
-            placeholder="price....."
-            onChangeText={e => setAmount(e)}
+        <View style={styles.dateCon}>
+          <Text style={styles.dateLabel}>From</Text>
+          <DatePicker
+            style={styles.dateBox}
+            date={stdate}
+            mode="date"
+            onDateChange={setstdate}
           />
-
-          <TextInput
-            style={styles.input}
-            value={mobile}
-            placeholder="mobile number...."
-            onChangeText={e => setmobile(e)}
+          <Text style={styles.dateLabel}>To</Text>
+          <DatePicker
+            style={styles.dateBox}
+            date={endDate}
+            mode="date"
+            onDateChange={setEndDate}
           />
-          <TextInput
-            style={styles.input}
-            value={adress}
-            placeholder="address....."
-            onChangeText={e => setAdress(e)}
-          />
-          <View style={styles.dateCon}>
-            <Text style={styles.label}>DOB</Text>
-            <DatePicker
-              style={styles.dateBox}
-              date={dob}
-              mode="date"
-              onDateChange={setDob}
+        </View>
+        
+     
+        <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
+          {
+            <Image
+              source={{
+                uri: photo
+                  ? photo.uri
+                  : 'https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg',
+              }}
+              style={styles.image}
             />
-          </View>
-          <RadioButtonRN data={selectGender} selectedBtn={e => setGender(e)} />
+          }
+        </TouchableOpacity>
 
-          <View style={styles.container}>
-            <Text style={styles.label}>From</Text>
-            <DatePicker
-              style={styles.dateBox}
-              date={stdate}
-              mode="date"
-              onDateChange={setstdate}
+        <TouchableOpacity onPress={() => imageSelectBox(setAdharcard)}>
+          {
+            <Image
+              source={{
+                uri: adharcard
+                  ? adharcard.uri
+                  : 'https://cdn.pixabay.com/photo/2022/11/09/00/44/aadhaar-card-7579588_1280.png',
+              }}
+              style={styles.image}
             />
-            <Text style={styles.label}>To</Text>
-            <DatePicker
-              style={styles.dateBox}
-              date={endDate}
-              mode="date"
-              onDateChange={setEndDate}
-            />
-          </View>
-          <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
-            {
-              <Image
-                source={{
-                  uri: photo
-                    ? photo.uri
-                    : 'https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg',
-                }}
-                style={styles.image}
-              />
-            }
-          </TouchableOpacity>
+          }
+        </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => imageSelectBox(setAdharcard)}>
-            {
-              <Image
-                source={{
-                  uri: adharcard
-                    ? adharcard.uri
-                    : 'https://cdn.pixabay.com/photo/2022/11/09/00/44/aadhaar-card-7579588_1280.png',
-                }}
-                style={styles.image}
-              />
-            }
-          </TouchableOpacity>
-
+        <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={() => postData()}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
         </View>
+      </View>
       )}
       {filterdData?.map(item => (
         <TouchableOpacity
@@ -410,21 +420,43 @@ const styles = StyleSheet.create({
   filterItemText: {
     color: 'white',
   },
+
+  formContainer:{
+    margin:20,
+    borderRadius:20,
+    backgroundColor:"#fff",
+    shadowColor:'#000'
+
+  },
+ 
+ 
+  dateLabel: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight:'bold',
+    textAlign:'left',
+    margin:20,
+    padding:10,
+    backgroundColor:'black',
+    width:80,
+    borderRadius:10 
+  },
   image: {
-    width: '80%',
+    width: '100%',
     height: 300,
-    borderRadius: 8,
-    margin: 8,
-    marginLeft: 30,
+    borderRadius: 10,
   },
   input: {
     height: 40,
-    // borderWidth: 1,
+    
     borderBottomWidth: 1,
     borderBottomColor: 'black',
-    borderRadius: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     marginBottom: 16,
+    fontWeight:'bold',
+    fontSize:16,
+    color:'black'
+   
   },
   button: {
     backgroundColor: 'blue',
@@ -436,15 +468,46 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  nameText: {
+    color: 'brown',
+    fontSize: 17,
+
+    alignItems: 'center',
+  },
+  imageBtn: {
+    width: '100%',
+  },
+  button: {
+    flex: 1, // Make each button take up equal space
+    backgroundColor: 'black',
+    padding: 12,
+    width: '40%',
+    borderRadius: 20,
+    marginHorizontal: 10, // Add horizontal margin between buttons
+  },
+
+  // Style for button text
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row', // Display buttons horizontally
+    justifyContent: 'space-between', // Space them evenly in a row
+    alignItems: 'center', // Center vertically
+    marginVertical: 20, // Add some vertical margin for spacing
+    // width: 200,
+  },
   date: {
     alignItems: 'center',
 
-    borderColor: 'black',
     borderWidth: 1,
     margin: 10,
   },
   dateBox: {
-    height: 30,
+    height: 40,
+    width:370,
+    backgroundColor:'#dddbd9',
   },
   btncontainer: {
     flexDirection: 'row', // Arrange buttons in a row

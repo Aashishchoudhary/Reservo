@@ -154,12 +154,12 @@ const ViewAllReservation = ({route}) => {
                 idt: item?.ser?.map(y => y.id), LibId:LibId
               })
             }
-            style={styles.container}>
+            style={[styles.container ,item.seat_num%2 ? styles.evenStyle : styles.oddStyle]}>
             <View key={item.id}>
               <Text style={styles.seatNumber}>{item.seat_num}</Text>
               {item?.data?.map(x => (
                 <View key={x.id}>
-                  <Text style={styles.name}>{x.name}</Text>
+                  <Text style={styles.name}>{x.name.slice(0,1).toUpperCase()+x.name.slice(1)}</Text>
                   <Text style={styles.endDate}>{x.end_date}</Text>
                   {new Date(x.end_date) < new Date() && (
                     <Text style={styles.expired}>Expired</Text>
@@ -177,7 +177,7 @@ const ViewAllReservation = ({route}) => {
                 </View>
               ))}
             </View>
-            <View style={styles.divider} />
+          
           </TouchableOpacity>
         ))}
       </View>
@@ -198,19 +198,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   container: {
-    backgroundColor: 'lightgray',
+    // backgroundColor: 'lightgray',
     padding: 10,
     margin: 5,
+    height:"30%"
+  },
+  evenStyle: {
+    backgroundColor: 'lightgray',
+  },
+  oddStyle: {
+    backgroundColor: '#fff',
   },
   seatNumber: {
     fontSize: 18,
     fontWeight: 'bold',
+    color:'black'
   },
   name: {
     fontSize: 16,
+    fontWeight: 'bold',
+    color:'black'
   },
   endDate: {
-    color: 'blue',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color:'black'
   },
   expired: {
     color: 'red',
