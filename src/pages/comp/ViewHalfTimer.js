@@ -251,86 +251,86 @@ const ViewHalfTimer = ({route}) => {
        
       </View></View>
 
-      <View>
-        {data?.data?.map((x, index) => (
-          <View key={index}>
-            <TextInput
-              style={styles.input}
-              value={name}
-              onChangeText={text => setName(text)}
-              // placeholder={x.name||""}
-            />
+      <View style={styles.formContainer}>
+      {data.data?.map((x, index) => (
+            <View key={index}>
+              <TextInput
+                style={styles.input}
+                value={name}
+                onChangeText={text => setName(text)}
+                placeholder={x.name}
+              />
 
+              <TextInput
+                style={styles.input}
+                value={amount}
+                keyboardType="numeric"
+                onChangeText={e => setAmount(e)}
+                placeholder={x.amount.toString()}
+              />
 
-            <TextInput
-              style={styles.input}
-              keyboardType="numeric"
-              value={mobile}
-              onChangeText={e => setmobile(e)}
-              // placeholder={x.mobile_number.toString()||""}
-            />
-            <TextInput
-              style={styles.input}
-              value={amount}
-              keyboardType="numeric"
-              onChangeText={e => setAmount(e)}
-              placeholder={"place holder"}
-            />
+              <TextInput
+                style={styles.input}
+                keyboardType="numeric"
+                value={mobile}
+                onChangeText={e => setmobile(e)}
+                placeholder={x.mobile_number.toString()}
+                color={mobile.length > 9 ? 'green' : 'red'}
+              />
+
+              
+             
+
               <View style={styles.dateCon}>
-    
-    
-    <Text style={styles.label}>{x.end_date}</Text>
-    <DatePicker
-      style={styles.dateBox}
-      date={endDate}
-      mode="date"
-      onDateChange={setEndDate}
-    />
-  </View>
+                <Text style={styles.dateLabel}>End Date</Text>
+                <DatePicker
+                  style={styles.dateBox}
+                  date={endDate}
+                  mode="date"
+                  onDateChange={setEndDate}
+                />
+              </View>
+              <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
+                {x.photo?.length > 0 ? (
+                  <Image
+                    source={{
+                      uri: photo ? photo.uri : `${url}${x.photo}`,
+                    }}
+                    style={styles.image}
+                  />
+                ) : (
+                  <Image
+                    source={{
+                      uri: photo
+                        ? photo.uri
+                        : 'https://cdn.pixabay.com/photo/2022/11/09/00/44/aadhaar-card-7579588_1280.png',
+                    }}
+                    style={styles.image}
+                  />
+                )}
+              </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
-              {x.photo?.length > 1 ? (
-                <Image
-                  source={{
-                    uri: photo ? photo.uri : `${url}${x.photo}`,
-                  }}
-                  style={styles.image}
-                />
-              ) : (
-                <Image
-                  source={{
-                    uri: photo
-                      ? photo.uri
-                      : 'https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg',
-                  }}
-                  style={styles.image}
-                />
-              )}
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => imageSelectBox(setAdharcard)}>
-              {x.adharcard?.length > 0 ? (
-                <Image
-                  source={{
-                    uri: adharcard
-                      ? adharcard.uri
-                      : `${url}${x.adharcard}`,
-                  }}
-                  style={styles.image}
-                />
-              ) : (
-                <Image
-                  source={{
-                    uri: adharcard
-                      ? adharcard.uri
-                      : 'https://cdn.pixabay.com/photo/2022/11/09/00/44/aadhaar-card-7579588_1280.png',
-                  }}
-                  style={styles.image}
-                />
-              )}
-            </TouchableOpacity>
-          </View>
-        ))}
+              <TouchableOpacity onPress={() => imageSelectBox(setAdharcard)}>
+                {x.adharcard?.length > 0 ? (
+                  <Image
+                    source={{
+                      uri: adharcard ? adharcard.uri : `${url}${x.adharcard}`,
+                    }}
+                    style={styles.image}
+                  />
+                ) : (
+                  <Image
+                    source={{
+                      uri: adharcard
+                        ? adharcard.uri
+                        : 'https://cdn.pixabay.com/photo/2022/11/09/00/44/aadhaar-card-7579588_1280.png',
+                    }}
+                    style={styles.image}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+          ))}
 
 <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => patchData()}>
@@ -340,12 +340,12 @@ const ViewHalfTimer = ({route}) => {
       </View>
     
 
-<View style={styles.buttonContainer}> 
-   
-<TouchableOpacity style={styles.button} onPress={() => deleteData()}>
-        <Text style={styles.buttonText}> Delete</Text>
-      </TouchableOpacity>
-      
+      <View style={styles.buttonContainerDelete}>
+  
+          <TouchableOpacity style={styles.button} onPress={() => deleteData()}>
+            <Text style={styles.buttonText}>Delete</Text>
+          </TouchableOpacity>
+        
       </View>
       
      
@@ -452,8 +452,9 @@ const styles = StyleSheet.create({
     margin:20,
     padding:10,
     backgroundColor:'black',
-    width:80,
-    borderRadius:10 
+    width:110,
+    borderRadius:10 ,
+    textAlign:'center'
   },
 image: {
   width: '80%',
@@ -519,7 +520,9 @@ date:{
   
 },
 dateBox:{
-  height:30
+  height: 40,
+    width:370,
+    backgroundColor:'#dddbd9',
 } ,
 
 btncontainer: {
@@ -542,7 +545,16 @@ btnbuttonText: {
   textAlign: 'center',
   color:"#FFFFFF"
 },
+buttonContainerDelete: {
+  flexDirection: 'row', // Display buttons horizontally
+  justifyContent: 'space-between', // Space them evenly in a row
+  alignItems: 'center', // Center vertically
+  // Add some vertical margin for spacing
 
+  margin:10,
+  marginBottom:50
+ 
+},
 });
 
 export default ViewHalfTimer;

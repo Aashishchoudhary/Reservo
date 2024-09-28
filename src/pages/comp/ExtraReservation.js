@@ -20,13 +20,13 @@ import {setLoading, setChecking} from '../../store/auth/authSlice';
 import {useFocusEffect} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 import {imageSelectBox} from './ImageDownLoad';
-import {url} from '../../store/url'
+import {url} from '../../store/url';
 const ExtraReservation = ({route}) => {
   const {id} = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const userId= useSelector((state)=>state.auth.user)
+  const userId = useSelector(state => state.auth.user);
   const [data, setData] = useState([]);
   const [filterdData, setFilteredData] = useState([]);
 
@@ -58,8 +58,6 @@ const ExtraReservation = ({route}) => {
   if (adharcard) updateData.append('adharcard', adharcard);
   if (photo) updateData.append('photo', photo);
 
-
-
   const funCheck = () => {
     setCheck(true);
   };
@@ -72,7 +70,6 @@ const ExtraReservation = ({route}) => {
     },
   ];
   const createRoom = async () => {
-   
     try {
       // Call signatureGenration() and handle potential errors
       const response = await axios.get(`${url}/create-signature/`, {
@@ -84,21 +81,18 @@ const ExtraReservation = ({route}) => {
         },
       });
       const res = await response.data;
-      
-  
+
       // Construct the complete URL with all necessary parameters
       const url = `${url}/chat-page/?libid=${id}&user_id=${userId['user_id']}&sign=${res['sign']}&url=add-extra-time`;
-      console.log(url)
+      console.log(url);
       // Perform navigation using navigation.navigate
-      navigation.navigate('QR', { data: url });
+      navigation.navigate('QR', {data: url});
     } catch (error) {
       // Handle errors gracefully, e.g., display an error message or retry logic
       console.error('Error creating room:', error);
       // You can add error handling specific to your application's requirements
     }
   };
-  
- 
 
   const postData = async () => {
     try {
@@ -113,7 +107,6 @@ const ExtraReservation = ({route}) => {
 
       setCheck(false);
       fetchData();
-   
     } catch (err) {
       console.log(err.response.data);
       // Alert.alert('Something went wrong please try again later');
@@ -128,7 +121,7 @@ const ExtraReservation = ({route}) => {
       });
 
       const res = await response.data;
-      
+
       const newData = res.slice().sort((a, b) => {
         return new Date(b.updated_at) - new Date(a.updated_at);
       });
@@ -136,7 +129,6 @@ const ExtraReservation = ({route}) => {
       setFilteredData(newData);
       setData(res);
     } catch (err) {
-   
       Alert.alert(err.response.data);
     }
   };
@@ -157,7 +149,7 @@ const ExtraReservation = ({route}) => {
     console.log(newData);
     setFilteredData(newData);
   };
-  
+
   useFocusEffect(
     useCallback(() => {
       dispatch(setLoading(true));
@@ -193,10 +185,12 @@ const ExtraReservation = ({route}) => {
 
   return (
     <KeyboardAwareScrollView>
-      <View style={styles.btncontainer}><TouchableOpacity style={styles.btnbutton} onPress={() => createRoom()}>
-        <Text style={styles.btnbuttonText}>Show QR</Text>
-      </TouchableOpacity></View>
-      <View style={styles.container}>
+      <View style={styles.btncontainer}>
+        <TouchableOpacity style={styles.btnbutton} onPress={() => createRoom()}>
+          <Text style={styles.btnbuttonText}>Show QR</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.searchContainer}>
         <View style={styles.subCon}>
           <TextInput
             style={styles.textInputStyle}
@@ -206,45 +200,51 @@ const ExtraReservation = ({route}) => {
             placeholder="Search Here"
           />
         </View>
-        <TouchableOpacity
-          onPress={() => setDisplay(true)}
-          style={styles.filterButton}>
-          <Text style={styles.filterButtonText}>Filter</Text>
-        </TouchableOpacity>
-        {display && filterFun()}
-        {!check && (
-          <TouchableOpacity onPress={() => funCheck()}>
-            <Text>ADD Entery</Text>
+        <View style={styles.buttonConatiner}>
+          <TouchableOpacity
+            onPress={() => setDisplay(true)}
+            style={styles.filterButton}>
+            <Text style={styles.filterButtonText}>Filter</Text>
           </TouchableOpacity>
-        )}
-        {check && (
-          <TouchableOpacity onPress={() => setCheck(false)}>
-            <Text>Hide Button</Text>
-          </TouchableOpacity>
-        )}
+          {display && filterFun()}
+          {!check && (
+            <TouchableOpacity
+              onPress={() => funCheck()}
+              style={styles.filterButton}>
+              <Text style={styles.filterButtonText}>ADD Entery</Text>
+            </TouchableOpacity>
+          )}
+          {check && (
+            <TouchableOpacity
+              onPress={() => setCheck(false)}
+              style={styles.filterButton}>
+              <Text style={styles.filterButtonText}>Hide Button</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       {check && (
-        <View>
+        <View style={styles.formContainer}>
           <TextInput
             style={styles.input}
             value={name}
-            placeholder="Name......."
+            placeholder="name....."
             onChangeText={e => setName(e)}
           />
 
           <TextInput
             style={styles.input}
-            value={amount}
-            placeholder="price....."
-            onChangeText={e => setAmount(e)}
+            value={mobile}
+            placeholder="Mobile number....."
+            onChangeText={e => setmobile(e)}
+            color={mobile.length > 9 ? 'green' : 'red'}
           />
-
           <TextInput
             style={styles.input}
-            value={mobile}
-            placeholder="mobile number...."
-            onChangeText={e => setmobile(e)}
+            value={amount}
+            placeholder="amount....."
+            onChangeText={e => setAmount(e)}
           />
           <TextInput
             style={styles.input}
@@ -253,7 +253,7 @@ const ExtraReservation = ({route}) => {
             onChangeText={e => setAdress(e)}
           />
           <View style={styles.dateCon}>
-            <Text style={styles.label}>DOB</Text>
+            <Text style={styles.dateLabel}>DOB</Text>
             <DatePicker
               style={styles.dateBox}
               date={dob}
@@ -261,17 +261,23 @@ const ExtraReservation = ({route}) => {
               onDateChange={setDob}
             />
           </View>
-          <RadioButtonRN data={selectGender} selectedBtn={e => setGender(e)} />
+          <View>
+            <Text>{gender}</Text>
+          </View>
+          <RadioButtonRN
+            data={selectGender}
+            selectedBtn={e => setGender(e['label'])}
+          />
 
-          <View style={styles.container}>
-            <Text style={styles.label}>From</Text>
+          <View style={styles.dateCon}>
+            <Text style={styles.dateLabel}>From</Text>
             <DatePicker
               style={styles.dateBox}
               date={stdate}
               mode="date"
               onDateChange={setstdate}
             />
-            <Text style={styles.label}>To</Text>
+            <Text style={styles.dateLabel}>To</Text>
             <DatePicker
               style={styles.dateBox}
               date={endDate}
@@ -279,6 +285,7 @@ const ExtraReservation = ({route}) => {
               onDateChange={setEndDate}
             />
           </View>
+
           <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
             {
               <Image
@@ -305,20 +312,29 @@ const ExtraReservation = ({route}) => {
             }
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={() => postData()}>
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
+          <View style={styles.container}>
+            <TouchableOpacity style={styles.button} onPress={() => postData()}>
+              <Text style={styles.buttonText}>Save</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
-      {filterdData?.map(item => (
+      {filterdData?.map((item, index) => (
         <TouchableOpacity
           key={item.id}
           onPress={() =>
-            navigation.navigate('editExtra', { id:id,idt: item.id})
-          }
-          style={styles.container}>
-          <View key={item.id}>
-            <Text style={styles.name}>{item.name}</Text>
+            navigation.navigate('editExtra', {id: id, idt: item.id})
+          }>
+          <View
+            key={item.id}
+            style={[
+              styles.container,
+              index % 2 ? styles.evenStyle : styles.oddStyle,
+            ]}>
+            <Text style={styles.name}>
+              {item.name.slice(0, 1).toUpperCase() + item.name.slice(1)}
+            </Text>
+            <Text style={styles.endDate}>{item.end_date}</Text>
             {new Date(item.end_date) < new Date() && (
               <Text style={styles.expired}>Expired</Text>
             )}
@@ -332,7 +348,6 @@ const ExtraReservation = ({route}) => {
               </Text>
             )}
           </View>
-          <View style={styles.divider} />
         </TouchableOpacity>
       ))}
     </KeyboardAwareScrollView>
@@ -352,9 +367,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   container: {
-    backgroundColor: 'lightgray',
+    // backgroundColor: 'lightgray',
     padding: 10,
-    margin: 5,
+    margin: 8,
+    height: 80,
+    borderRadius: 10,
+  },
+  evenStyle: {
+    backgroundColor: 'lightgray',
+  },
+  oddStyle: {
+    backgroundColor: '#fff',
   },
   seatNumber: {
     fontSize: 18,
@@ -383,6 +406,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: 'lightgray',
     padding: 10,
+    borderRadius:10
   },
   textInputStyle: {
     flex: 1,
@@ -445,28 +469,55 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   dateBox: {
-    height: 30,
+    height: 40,
+    width: 370,
+    backgroundColor: '#dddbd9',
   },
   btncontainer: {
     flexDirection: 'row', // Arrange buttons in a row
     justifyContent: 'space-between', // Distribute buttons evenly
-    marginTop: 20, // Add spacing
+    marginTop: 10, // Add spacing
   },
   btnbutton: {
     backgroundColor: '#f5f5f5', // Light background
     borderRadius: 10, // Rounded corners
     padding: 10, // Margin around text
     flex: 1, // Make buttons equal width
-    backgroundColor:'#413e3e',
-    margin:5
-
+    backgroundColor: '#413e3e',
+    margin: 5,
   },
   btnbuttonText: {
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    color:"#FFFFFF"
+    color: '#FFFFFF',
   },
+  buttonConatiner: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  formContainer: {
+    margin: 10,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+  },
+  dateLabel: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 20,
+    padding: 10,
+    backgroundColor: 'black',
+    width: 80,
+    borderRadius: 10,
+  },
+  searchContainer:{
+margin:5,
+borderRadius:20
+  }
 });
 
 export default ExtraReservation;

@@ -21,7 +21,7 @@ const EditLibrary = ({route}) => {
   const [facilty, setFacilty] = useState('');
   const [locality, setlocality] = useState('');
   const [city, setCity] = useState('');
-  const [district, setDistrict] = useState('');
+  const [state, setState] = useState('');
   const [pincode, setPincode] = useState('');
   const [imageOne, setImageOne] = useState(null);
   const [imageTwo, setimageTwo] = useState(null);
@@ -55,7 +55,7 @@ const EditLibrary = ({route}) => {
   if (facilty) uploadData.append('facilty', facilty);
   if (locality) uploadData.append('locality', locality);
   if (city) uploadData.append('city', city);
-  if (district) uploadData.append('district', district);
+  if (state) uploadData.append('state', state);
   if (pincode) uploadData.append('pincode', pincode);
 
   // Optional image fields (null values are omitted)
@@ -80,7 +80,7 @@ const EditLibrary = ({route}) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.patch(
+       await axios.patch(
         `${url}/library-view/${id}/`,
         uploadData,
         {
@@ -141,7 +141,7 @@ const EditLibrary = ({route}) => {
             style={styles.input}
             value={name}
             onChangeText={text => setName(text)}
-            placeholder={x.name}
+            placeholder={x.name?x.name:'Name....'}
           />
 
           <TextInput
@@ -149,7 +149,8 @@ const EditLibrary = ({route}) => {
             keyboardType="numeric"
             value={mobile_number}
             onChangeText={text => setMobileNumber(text)}
-            placeholder={x.mobile_number.toString()}
+            placeholder={x.mobile_number.toString()?x.mobile_number.toString():"Mobile number...."}
+            color={mobile_number.length > 9 ? 'green' : 'red'}
           />
 
           <TextInput
@@ -157,7 +158,25 @@ const EditLibrary = ({route}) => {
             value={total_seat}
             keyboardType="numeric"
             onChangeText={x => handleSeat(x)}
-            placeholder={x.total_seat.toString()}
+            placeholder={x.total_seat.toString()?x.total_seat.toString():"Number of Seats..."}
+          />
+          <TextInput
+            style={styles.input}
+            value={locality}            
+            onChangeText={x => setlocality(x)}
+            placeholder={x.locality?x.locality:'Address..'}
+          />
+          <TextInput
+            style={styles.input}
+            value={city}           
+            onChangeText={x => setCity(x)}
+            placeholder={x.city?x.city:"city.."}
+          />
+          <TextInput
+            style={styles.input}
+            value={state}           
+            onChangeText={x => setState(x)}
+            placeholder={x.sate?x.state:'State....'}
           />
         </View>
       ))}
@@ -177,13 +196,18 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    color:'black',
+    fontSize:16,
+    fontWeight:'bold',
+    borderRadius:10
   },
   touchableOpacity: {
     backgroundColor: '#3498db',
     padding: 10,
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 10,
+    margin:12
   },
   touchableText: {
     color: '#fff',

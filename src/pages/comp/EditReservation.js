@@ -23,7 +23,7 @@ import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 import {setLoading, setChecking} from '../../store/auth/authSlice';
 import {useNavigation} from '@react-navigation/native';
 import {url} from '../../store/url';
-const EditAllREs = ({route}) => {
+const EditReservation = ({route}) => {
   const user = useSelector(state => state.auth.authTokens);
   const userId = useSelector(state => state.auth.user);
  
@@ -441,23 +441,9 @@ const EditAllREs = ({route}) => {
                 color={mobile.length > 9 ? 'green' : 'red'}
               />
 
-              <View style={styles.dateCon}>
-                <Text style={styles.dateLabel}>DOB</Text>
-                <DatePicker
-                  style={styles.dateBox}
-                  date={dob}
-                  mode="date"
-                  onDateChange={setDob}
-                />
-              </View>
-              <View>
-                <Text>{gender}</Text>
-              </View>
-              <RadioButtonRN
-                data={selectGender}
-                selectedBtn={e => setGender(e['label'])}
-              />
-
+            
+             
+              
               <View style={styles.dateCon}>
                 <Text style={styles.dateLabel}>From</Text>
                 <DatePicker
@@ -613,7 +599,7 @@ const styles = StyleSheet.create({
   },
 
   formContainer:{
-    margin:20,
+    margin:10,
     borderRadius:20,
     backgroundColor:"#fff",
     shadowColor:'#000'
@@ -625,7 +611,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
     fontWeight:'bold',
-    textAlign:'left',
+    textAlign:'center',
     margin:20,
     padding:10,
     backgroundColor:'black',
@@ -687,7 +673,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // Display buttons horizontally
     justifyContent: 'space-between', // Space them evenly in a row
     alignItems: 'center', // Center vertically
-    marginVertical: 20, // Add some vertical margin for spacing
+  // Add some vertical margin for spacing
     
   },
   date: {
@@ -741,4 +727,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EditAllREs;
+export default EditReservation;

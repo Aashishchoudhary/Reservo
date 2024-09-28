@@ -150,7 +150,7 @@ const ViewAllReservation = ({route}) => {
         {filteredDataSource?.map(item => (
           <TouchableOpacity key={item.seat_num}
             onPress={() =>
-              navigation.navigate('EditAllRes', {
+              navigation.navigate('editreservation', {
                 idt: item?.ser?.map(y => y.id), LibId:LibId
               })
             }
@@ -200,8 +200,9 @@ const styles = StyleSheet.create({
   container: {
     // backgroundColor: 'lightgray',
     padding: 10,
-    margin: 5,
-    height:"30%"
+    marginTop: 5,
+    height:"30%",
+    borderRadius:10,
   },
   evenStyle: {
     backgroundColor: 'lightgray',
@@ -230,30 +231,38 @@ const styles = StyleSheet.create({
   expiring: {
     color: 'green',
   },
-  divider: {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    marginVertical: 20,
-  },
+
   subCon: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'lightgray',
     padding: 10,
+    borderRadius:10
   },
   textInputStyle: {
     flex: 1,
     backgroundColor: 'white',
     borderRadius: 5,
     padding: 5,
+    color:'black',
+    fontSize:16,
+    fontWeight:'bold',
+    marginRight:5,
   },
   filterButton: {
     padding: 5,
     borderRadius: 5,
+    backgroundColor:"black",
+    borderRadius:10,
+    width:"18%",
+    
   },
   filterButtonText: {
-    color: 'black',
+    color: 'white',
+    fontSize:16,
+    fontWeight:'600',
+    textAlign:'center'
   },
   filterContainer: {
     flexDirection: 'row',

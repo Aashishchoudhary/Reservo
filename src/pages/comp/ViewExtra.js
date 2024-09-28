@@ -146,172 +146,148 @@ const ViewExtra = ({route}) => {
   return(
     <KeyboardAwareScrollView>
     <View>
-   
-      {data?.data?.map(item => (
-          <View key={item.id}>
-            <ViewShot
-              style={styles.container}
-              ref={ref}
-              options={{
-                fileName: 'Your-File-Name',
-                format: 'jpg',
-                quality: 1,
-              }}>
-              <View style={styles.header}>
-                <Text style={styles.title}>Invoice</Text>
-              </View>
-              <View style={styles.invoiceInfoContainer}>
-                <View style={styles.invoiceInfo}>
-                  <Text style={styles.label}>Library:</Text>
-                  <Text style={styles.total}>{data?.library_name}</Text>                  
-                </View>
-              </View>
-              <View style={styles.invoiceInfoContainer}>
-                <View style={styles.invoiceInfo}>
-                  <Text style={styles.label}>Contact:</Text>
-                  <Text style={styles.total}>{data?.mobile_number}</Text>                  
-                </View>
-              </View>
-              <View style={styles.invoiceInfoContainer}>
-                <View style={styles.invoiceInfo}>
-                  <Text style={styles.label}>Invoice Date:</Text>
-                  <Text style={styles.total}>{date}</Text>
-                </View>
-              </View>
-              <View style={styles.divider} />
-              <View style={styles.header}>
-                <Text style={styles.title}>Info</Text>
-                <View style={styles.customerInfo}>
-                  <Text style={styles.label}>Name:</Text>
-                  <Text style={styles.total}>{item.name}</Text>
-                </View>
-                <View style={styles.customerInfo}>
-                  <Text style={styles.label}>Mobile:</Text>
-                  <Text style={styles.total}>{item.mobile_number}</Text>
-                </View>
-                <View style={styles.customerInfo}>
-                  <Text style={styles.label}>Seat No:</Text>
-                  <Text style={styles.total}>{data?.seat_num}</Text>
-                </View>
-              </View>
+    
+    {data?.data?.map(item => (
+        <View key={item.id}>
+          <ViewShot
+            style={styles.container}
+            ref={ref}
+            options={{
+              fileName: `${item.name}`,
+              format: 'jpg',
+              quality: 1,
+            }}>
+     
+    {/* Header with Company Info */}
+    <View style={styles.header}>
+      <Text style={styles.companyName}>{data.library_name.slice(0,1).toUpperCase()+data.library_name.slice(1)}</Text>
+      <Text style={styles.companyDetails}>{data.address}</Text>
+      <Text style={styles.companyDetails}>Phone: {data.mobile_number}</Text>
+      <Text style={styles.companyDetails}>Email: info@company.com</Text>
+    </View>
 
-              <View style={styles.divider} />
-              <View style={styles.customerInfo}>
-                <Text style={styles.label}>Amount:</Text>
-                <Text style={styles.total}>Rs-{item.amount}</Text>
-              </View>
-              <View style={styles.customerInfo}>
-                <Text style={styles.label}>Till Date:</Text>
-                <Text style={styles.total}>{item.end_date}</Text>
-              </View>
-              <View style={styles.divider} />
-              <View style={styles.nameText}>
-                <Text style={styles.nameText}>A aashish kalwaniya Product</Text>
-              </View>
-            </ViewShot>
-            {item.photo && (
-              <TouchableOpacity
-                style={styles.imageBtn}
-                onPress={() => btnImage(`${url}${item.photo}`)}>
-                <Image
-                  style={styles.image}
-                  source={{uri: `${url}${item.photo}`}}
-                />
-              </TouchableOpacity>
-            )}
-            {item.adharcard && (
-              <TouchableOpacity
-                style={styles.imageBtn}
-                onPress={() =>
-                  btnImage(`${url}${item.adharcard}`)
-                }>
-                <Image
-                  style={styles.image}
-                  source={{uri: `${url}${item.adharcard}`}}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-        ))}
-        <View style={styles.buttonContainer}>
+    {/* Invoice Details */}
+    <View style={styles.invoiceInfo}>
+      <View style={styles.invoiceHeader}>
+        <Text style={styles.invoiceTitle}>INVOICE</Text>
+      </View>
+      <View style={styles.detailsRow}>
+        <Text style={styles.label}>Seat No. :</Text>
+        <Text style={styles.value}> None</Text>
+      </View>
+      <View style={styles.detailsRow}>
+        <Text style={styles.label}>Date:</Text>
+        <Text style={styles.value}>{new Date().toDateString()}</Text>
+      </View>
+      <View style={styles.detailsRow}>
+        <Text style={styles.label}>Due Date:</Text>
+        <Text style={styles.value}>{item.end_date}</Text>
+      </View>
+      <View style={styles.detailsRow}>
+        <Text style={styles.label}>Amount :</Text>
+        <Text style={styles.value}>₹ {item.amount}</Text>
+      </View>
+      
+    </View>
+
+    {/* Client Information */}
+    <View style={styles.clientInfo}>
+      <Text style={styles.sectionTitle}>Bill To:</Text>
+      <Text style={styles.clientName}>{item.name.slice(0,1).toUpperCase()+item.name.slice(1)}</Text>
+      <Text style={styles.clientDetails}>{item.adress}</Text>
+      <Text style={styles.clientDetails}>Phone: {item.mobile_number}</Text>
+      <Text style={styles.clientDetails}>Gender: {item.gender}</Text>
+    </View>
+
+    
+     
+
+    {/* Footer */}
+    <View style={styles.footer}>
+      <Text style={styles.footerText}>Product made by Labeo</Text>
+    </View>
+  
+      
+          </ViewShot>
+          {item.photo && (
+            <TouchableOpacity
+              style={styles.imageBtn}
+              onPress={() => btnImage(`${url}${item.photo}`)}>
+              <Image
+                style={styles.image}
+                source={{uri: `${url}${item.photo}`}}
+              />
+            </TouchableOpacity>
+          )}
+          {item.adharcard && (
+            <TouchableOpacity
+              style={styles.imageBtn}
+              onPress={() => btnImage(`${url}${item.adharcard}`)}>
+              <Image
+                style={styles.image}
+                source={{uri: `${url}${item.adharcard}`}}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      ))}
+      <View style={styles.buttonContainer}>
       
         <TouchableOpacity  style={styles.button} onPress={() => snapShot()}>
           <Text style={styles.buttonText}>Download Invoice</Text>
         </TouchableOpacity>
-  
+     
+
+      
         {data?.data?.map((item)=>
-          <TouchableOpacity key={item.id} style={styles.button} onPress={() => initiateWhatsApp(`${item.mobile_number}`)}>
-            <Text style={styles.buttonText}>Share on Whatsapp</Text>
-          </TouchableOpacity>
-        )}
-    
+        <TouchableOpacity key={item.id} style={styles.button} onPress={() => initiateWhatsApp(`${item.mobile_number}`)}>
+          <Text style={styles.buttonText}>Share on Whatsapp</Text>
+        </TouchableOpacity>
+      )}
+     
     </View></View>
 
-     
-      <View>
-        {data?.data?.map((x, index) => (
+    <View style={styles.formContainer}>
+    {data.data?.map((x, index) => (
           <View key={index}>
             <TextInput
               style={styles.input}
               value={name}
               onChangeText={text => setName(text)}
-              placeholder={'name'}
+              placeholder={x.name}
             />
- <TextInput
-              style={styles.input}
-              keyboardType="numeric"
-              value={mobile}
-              onChangeText={e => setmobile(e)}
-              placeholder={'mobile number'}
-            />
+
             <TextInput
               style={styles.input}
               value={amount}
               keyboardType="numeric"
               onChangeText={e => setAmount(e)}
-              placeholder={'amount'}
+              placeholder={x.amount.toString()}
             />
-<TextInput
-          style={styles.input}
-          value={adress}
-          placeholder='address.....'
-          onChangeText={e => setAdress(e)}
-        />
-<View style={styles.dateCon}>
-    <Text style={styles.label}>DOB</Text>
-    <DatePicker
-      style={styles.dateBox}
-      date={dob}
-      mode="date"
-      onDateChange={setDob}
-    />
-</View>     
-<View style={styles.dateCon}>
-  
-  <Text style={styles.label}>From</Text>
-  <DatePicker
-    style={styles.dateBox}
-    date={stdate}
-    mode="date"
-    onDateChange={setstdate}
-  />
-  <Text style={styles.label}>To</Text>
-  <DatePicker
-    style={styles.dateBox}
-    date={endDate}
-    mode="date"
-    onDateChange={setEndDate}
-  />
-</View>
-  <RadioButtonRN
-  data={selectGender}
-  
-  selectedBtn={(e) => setGender(e['label'])} 
-  
-/>
 
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              value={mobile}
+              onChangeText={e => setmobile(e)}
+              placeholder={x.mobile_number.toString()}
+              color={mobile.length > 9 ? 'green' : 'red'}
+            />
+
+            
+           
+
+            <View style={styles.dateCon}>
+              <Text style={styles.dateLabel}>End Date</Text>
+              <DatePicker
+                style={styles.dateBox}
+                date={endDate}
+                mode="date"
+                onDateChange={setEndDate}
+              />
+            </View>
             <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
-              {x.photo?.length > 1 ? (
+              {x.photo?.length > 0 ? (
                 <Image
                   source={{
                     uri: photo ? photo.uri : `${url}${x.photo}`,
@@ -323,7 +299,7 @@ const ViewExtra = ({route}) => {
                   source={{
                     uri: photo
                       ? photo.uri
-                      : 'https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg',
+                      : 'https://cdn.pixabay.com/photo/2022/11/09/00/44/aadhaar-card-7579588_1280.png',
                   }}
                   style={styles.image}
                 />
@@ -334,9 +310,7 @@ const ViewExtra = ({route}) => {
               {x.adharcard?.length > 0 ? (
                 <Image
                   source={{
-                    uri: adharcard
-                      ? adharcard.uri
-                      : `${url}${x.adharcard}`,
+                    uri: adharcard ? adharcard.uri : `${url}${x.adharcard}`,
                   }}
                   style={styles.image}
                 />
@@ -355,168 +329,196 @@ const ViewExtra = ({route}) => {
         ))}
 
 <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => patchData()}>
-          <Text style={styles.buttonText}>Update</Text>
-        </TouchableOpacity>
-        </View>
-      </View>
-    
-
-<View style={styles.buttonContainer}> 
-   
-<TouchableOpacity style={styles.button} onPress={() => deleteData()}>
-        <Text style={styles.buttonText}> Delete</Text>
+      <TouchableOpacity style={styles.button} onPress={() => patchData()}>
+        <Text style={styles.buttonText}>Update</Text>
       </TouchableOpacity>
-      
       </View>
+    </View>
+  
 
-     
+    <View style={styles.buttonContainerDelete}>
+
+        <TouchableOpacity style={styles.button} onPress={() => deleteData()}>
+          <Text style={styles.buttonText}>Delete</Text>
+        </TouchableOpacity>
+      
+    </View>
     
+   
+   
+ 
+  
+ 
   </KeyboardAwareScrollView>
 );
 };
 const styles = StyleSheet.create({
-container: {
-padding: 20,
-backgroundColor:'#d0d3cd',
+  container: {
+    flex: 1,
+    backgroundColor: '#f7f7f7',
+    padding: 20,
+  },
+  header: {
+    marginBottom: 20,
+  },
+  companyName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  companyDetails: {
+    fontSize: 14,
+    color: '#555',
+  },
+  invoiceInfo: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  invoiceHeader: {
+    marginBottom: 10,
+  },
+  invoiceTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  detailsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+  label: {
+    fontSize: 16,
+    color: '#555',
+  },
+  value: {
+    fontSize: 16,
+    color: '#000',
+  },
+  clientInfo: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#333',
+  },
+  clientName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  clientDetails: {
+    fontSize: 14,
+    color: '#555',
+  },
+  
+  footer: {
+    marginTop: 30,
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
 
-},
+  formContainer:{
+    margin:20,
+    borderRadius:20,
+    backgroundColor:"#fff",
+    shadowColor:'#000'
 
-
-header: {
-alignItems: 'left',
-},
-title: {
-fontSize: 24,
-fontWeight: 'bold',
-textDecorationLine:'underline'
-},
-invoiceInfoContainer: {
-flexDirection: 'row',
-justifyContent: 'space-between',
-marginTop: 20,
-},
-invoiceInfo: {
-flexDirection: 'row',
-},
-
-text: {
-marginLeft: 5,
-},
-divider: {
-borderBottomColor: 'black',
-borderBottomWidth: 1,
-marginVertical: 20,
-},
-customerInfoContainer: {
-marginTop: 20,
-},
-customerInfo: {
-flexDirection: 'row',
-marginVertical: 5,
-},
-subtitle: {
-fontSize: 18,
-fontWeight: 'bold',
-marginBottom: 10,
-},
-itemsContainer: {
-marginTop: 20,
-},
-item: {
-flexDirection: 'row',
-justifyContent: 'space-between',
-marginVertical: 5,
-},
-itemName: {
-fontSize: 16,
-},
-itemDetails: {},
-itemTotal: {
-fontWeight: 'bold',
-
-},
-totalContainer: {
-flexDirection: 'row',
-alignItems: 'center',
-},
-label: {
-marginRight: 5, // Add some spacing between label and total
-fontSize: 16,
-fontWeight: 'bold',
-color: '#333',
-},
-total: {
-fontSize: 16,
-marginLeft:15,
-color: '#555',
-fontWeight: 'bold',
-},
+  },
+ 
+ 
+  dateLabel: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight:'bold',
+    textAlign:'left',
+    margin:20,
+    padding:10,
+    backgroundColor:'black',
+    width:110,
+    borderRadius:10 ,
+    textAlign:'center'
+  },
 image: {
-width: '80%',
-height: 300,
-borderRadius: 8,
-margin: 8,
- marginLeft:30
+  width: '80%',
+  height: 300,
+  borderRadius: 8,
+  margin: 8,
+   marginLeft:30
 },
 input: {
-height: 40,
-// borderWidth: 1,
-borderBottomWidth:1,
-borderBottomColor: 'black',
-borderRadius: 8,
-paddingHorizontal: 16,
-marginBottom: 16,
+  height: 40,
+  // borderWidth: 1,
+  borderBottomWidth:1,
+  borderBottomColor: 'black',
+  borderRadius: 8,
+  paddingHorizontal: 16,
+  marginBottom: 16,
 },
 button: {
-backgroundColor: 'blue',
-padding: 12,
-borderRadius: 8,
-alignItems: 'center',
+  backgroundColor: 'blue',
+  padding: 12,
+  borderRadius: 8,
+  alignItems: 'center',
 },
 buttonText: {
-color: 'white',
-fontSize: 16,
+  color: 'white',
+  fontSize: 16,
 },
 nameText:{
-color:'brown' ,
-fontSize:17 ,
-
-alignItems:'center',
-
+  color:'brown' ,
+  fontSize:17 ,
+ 
+  alignItems:'center',
+  
 } ,imageBtn:{
-width:'100%'
+  width:'100%'
 } ,
 button: {
-flex: 1, // Make each button take up equal space
-backgroundColor: 'black',
-padding: 12,
-width:'40%',
-borderRadius: 20,
-marginHorizontal: 10, // Add horizontal margin between buttons
+  flex: 1, // Make each button take up equal space
+  backgroundColor: 'black',
+  padding: 12,
+  width:'40%',
+  borderRadius: 20,
+  marginHorizontal: 10, // Add horizontal margin between buttons
 },
 
 // Style for button text
 buttonText: {
-color: 'white',
-textAlign: 'center',
+  color: 'white',
+  textAlign: 'center',
 },
 buttonContainer: {
-flexDirection: 'row', // Display buttons horizontally
-justifyContent: 'space-between', // Space them evenly in a row
-alignItems: 'center', // Center vertically
-marginVertical: 20, // Add some vertical margin for spacing
+  flexDirection: 'row', // Display buttons horizontally
+  justifyContent: 'space-between', // Space them evenly in a row
+  alignItems: 'center', // Center vertically
+  marginVertical: 20, // Add some vertical margin for spacing
 },
 date:{
-alignItems:'center',
+  alignItems:'center',
 
-borderColor:'black',
-borderWidth:1,
-margin:10
-
+  borderColor:'black',
+  borderWidth:1,
+  margin:10
+  
 },
 dateBox:{
-height:30
+  height: 40,
+    width:370,
+    backgroundColor:'#dddbd9',
 } ,
 
 btncontainer: {
@@ -539,7 +541,16 @@ btnbuttonText: {
   textAlign: 'center',
   color:"#FFFFFF"
 },
+buttonContainerDelete: {
+  flexDirection: 'row', // Display buttons horizontally
+  justifyContent: 'space-between', // Space them evenly in a row
+  alignItems: 'center', // Center vertically
+  // Add some vertical margin for spacing
 
+  margin:10,
+  marginBottom:50
+ 
+},
 });
 
 export default ViewExtra;

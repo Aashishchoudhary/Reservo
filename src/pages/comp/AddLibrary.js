@@ -20,7 +20,7 @@ const AddLibrary = () => {
   const [facilty, setFacilty] = useState("");
   const [locality, setlocality] = useState("");
   const [city, setCity] = useState("");
-  const [district, setDistrict] = useState("");
+  const [state, setState] = useState("");
   const [pincode, setPincode] = useState("");
   const [imageOne, setImageOne] = useState(null);
   const [imageTwo, setimageTwo] = useState(null);
@@ -74,7 +74,7 @@ useFocusEffect(
   if(facilty)uploadData.append("facilty", facilty);
   if(locality)uploadData.append("locality", locality);
   if(city)uploadData.append("city", city);
-  if(district)uploadData.append("district", district);
+  if(state)uploadData.append("state", state);
   if(pincode)uploadData.append("pincode", pincode);
 
   // Optional image fields (null values are omitted)
@@ -177,6 +177,7 @@ useEffect(() => {
         onChangeText={(text) => setMobileNumber(text)}
         placeholder="mobile number"
         required
+        color={mobile_number.length > 9 ? 'green' : 'red'}
       />
      
       
@@ -188,29 +189,50 @@ useEffect(() => {
         placeholder="total seats"
         required
       />
+      <TextInput
+        style={styles.input}
+        value={locality}
+        onChangeText={(text) =>setlocality(text)}
+        placeholder="address...."
+      /><TextInput
+      style={styles.input}
+      value={city}
+      onChangeText={(text) => setCity(text)}
+      placeholder="city..."
+    /><TextInput
+    style={styles.input}
+    value={state}
+    onChangeText={(text) => setState(text)}
+    placeholder="state..."
+  />
       <TouchableOpacity style={styles.touchableOpacity} onPress={()=>handleSubmit()}><Text style={styles.touchableText}>Add</Text></TouchableOpacity>
         </KeyboardAwareScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-      },
-      touchableOpacity: {
-        backgroundColor: '#3498db',
-        padding: 10,
-        alignItems: 'center',
-        borderRadius: 5,
-        marginTop: 10,
-      },
-      touchableText: {
-        color: '#fff',
-        fontSize: 16,
-      },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    color:'black',
+    fontSize:16,
+    fontWeight:'bold',
+    borderRadius:10
+  },
+  touchableOpacity: {
+    backgroundColor: '#3498db',
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 10,
+    margin:12
+  },
+  touchableText: {
+    color: '#fff',
+    fontSize: 16,
+  },
     
 })
 

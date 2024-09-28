@@ -11,7 +11,7 @@ import { setLoading } from '../../store/auth/authSlice';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import {url} from '../../store/url'
-const ViewSeat = ({route}) => {
+const ViewSeatReservation = ({route}) => {
 
     const {LibId}=route.params
     const user = useSelector(state => state.auth.authTokens);
@@ -164,4 +164,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViewSeat;
+export default ViewSeatReservation;

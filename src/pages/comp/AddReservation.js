@@ -349,6 +349,7 @@ const AddReservation = ({route}) => {
             value={mobile}
             placeholder="Mobile number....."
             onChangeText={e => setmobile(e)}
+            color={mobile.length > 9 ? 'green' : 'red'}
           />
           <TextInput
             style={styles.input}
@@ -371,9 +372,7 @@ const AddReservation = ({route}) => {
               onDateChange={setDob}
             />
           </View>
-          <View>
-            <Text>{gender}</Text>
-          </View>
+          
           <RadioButtonRN
             data={selectGender}
             selectedBtn={e => setGender(e['label'])}
@@ -457,22 +456,8 @@ const AddReservation = ({route}) => {
                 color={mobile.length > 9 ? 'green' : 'red'}
               />
 
-              <View style={styles.dateCon}>
-                <Text style={styles.dateLabel}>DOB</Text>
-                <DatePicker
-                  style={styles.dateBox}
-                  date={dob}
-                  mode="date"
-                  onDateChange={setDob}
-                />
-              </View>
-              <View>
-                <Text>{gender}</Text>
-              </View>
-              <RadioButtonRN
-                data={selectGender}
-                selectedBtn={e => setGender(e['label'])}
-              />
+              
+             
 
               <View style={styles.dateCon}>
                 <Text style={styles.dateLabel}>From</Text>
@@ -539,7 +524,7 @@ const AddReservation = ({route}) => {
         </View>
       )}
 
-      <View style={styles.buttonContainer}>
+      <View style={styles.buttonContainerDelete}>
         {data?.seat_data?.length > 0 && (
           <TouchableOpacity style={styles.button} onPress={() => deleteData()}>
             <Text style={styles.buttonText}>Delete</Text>
@@ -629,7 +614,9 @@ const styles = StyleSheet.create({
   },
 
   formContainer:{
-    margin:20,
+    margin:5,
+    marginTop:15,
+    marginBottom:15,
     borderRadius:20,
     backgroundColor:"#fff",
     shadowColor:'#000'
@@ -641,8 +628,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
     fontWeight:'bold',
-    textAlign:'left',
-    margin:20,
+    textAlign:'center',
+    margin:5,
     padding:10,
     backgroundColor:'black',
     width:80,
@@ -702,14 +689,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row', // Display buttons horizontally
     justifyContent: 'space-between', // Space them evenly in a row
     alignItems: 'center', // Center vertically
-    marginVertical: 20, // Add some vertical margin for spacing
+    // Add some vertical margin for spacing
     // width: 200,
+   
+  },
+  buttonContainerDelete: {
+    flexDirection: 'row', // Display buttons horizontally
+    justifyContent: 'space-between', // Space them evenly in a row
+    alignItems: 'center', // Center vertically
+    // Add some vertical margin for spacing
+    // width: 200,
+    margin:5,
+    marginBottom:50
+   
   },
   date: {
     alignItems: 'center',
 
     borderWidth: 1,
-    margin: 10,
+    margin: 5,
   },
   dateBox: {
     height: 40,

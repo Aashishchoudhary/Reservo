@@ -9,11 +9,11 @@ import Register from '../pages/login/Register';
 import RegisterOtp from '../pages/login/RegisterOtp';
 import DrawerNavigation from './Drawer/DrawerNavigation';
 
-import ViewSeat from '../pages/comp/ViewSeat';
+import ViewSeatReservation from '../pages/comp/ViewSeatReservation';
 import AddReservation from '../pages/comp/AddReservation';
 import AddLibrary from '../pages/comp/AddLibrary';
 import ViewAllReservation from '../pages/comp/ViewAllReservation';
-import EditAllREs from '../pages/comp/EditAllREs';
+import EditReservation from '../pages/comp/EditReservation';
 import TotalCollection from '../pages/comp/TotalCollection';
 import RefreshToken from '../store/RefreshToken';
 import SendPasswordOtp from '../pages/login/SendPasswordOtp';
@@ -71,19 +71,19 @@ const AppNavigation = () => {
         </>:<Stack.Screen name='drwa' component={DrawerNavigation} options={{headerShown:false}}/>}
         {user&&<>
        
-        <Stack.Screen name='ViewSeat' component={ViewSeat}/>
-        <Stack.Screen name='AddReservation' component={AddReservation} options={{title:'Save Reservation'}}/>
-        <Stack.Screen name='AddLibrary' component={AddLibrary} options={{title:'Add Library'}}/>
-        <Stack.Screen name='ViwAlRe' component={ViewAllReservation} options={{title:'Reservation'}}/>
-        <Stack.Screen name='EditAllRes' component={EditAllREs} options={{title:'Edit'}}/>
-        <Stack.Screen name='collection' component={TotalCollection} options={{title:'Total Collection'}}/>
-        <Stack.Screen name='extra' component={ExtraReservation} options={{title:'Extra '}}/>
-        <Stack.Screen name='editExtra' component={ViewExtra} options={{title:'Edit'}}/>
-        <Stack.Screen name='half' component={HalfTimer} options={{title:'HalfDay'}}/>
-        <Stack.Screen name='viewHalf' component={ViewHalfTimer} options={{title:'Edit '}}/>
-        <Stack.Screen name='previous' component={PreviousStudent} options={{title:'Previous '}}/>
-        <Stack.Screen name='viewPrevious' component={ViewPrevious} options={{title:'View'}}/>
-        <Stack.Screen name='EditLibrary' component={EditLibrary} options={{title:'Edit '}}/>
+        <Stack.Screen name='ViewSeat' component={ViewSeatReservation} options={{title:''}}/>
+        <Stack.Screen name='AddReservation' component={AddReservation} options={{title:'Save'}}/>
+        <Stack.Screen name='AddLibrary' component={AddLibrary} options={{title:'Add'}}/>
+        <Stack.Screen name='ViwAlRe' component={ViewAllReservation} options={{title:''}}/>
+        <Stack.Screen name='editreservation' component={EditReservation} options={{title:'Edit Library'}}/>
+        <Stack.Screen name='collection' component={TotalCollection} options={{title:''}}/>
+        <Stack.Screen name='extra' component={ExtraReservation} options={{title:''}}/>
+        <Stack.Screen name='editExtra' component={ViewExtra} options={{title:''}}/>
+        <Stack.Screen name='half' component={HalfTimer} options={{title:''}}/>
+        <Stack.Screen name='edithalf' component={ViewHalfTimer} options={{title:''}}/>
+        <Stack.Screen name='previous' component={PreviousStudent} options={{title:'Deleted Data'}}/>
+        <Stack.Screen name='viewPrevious' component={ViewPrevious} options={{title:''}}/>
+        <Stack.Screen name='EditLibrary' component={EditLibrary} options={{title:''}}/>
         
         <Stack.Screen name='QR' component={QR} options={{title:''}}/>
         <Stack.Screen name='viewfeedback' component={ViewFeedback} options={{title:''}}/>
