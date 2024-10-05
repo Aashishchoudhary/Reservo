@@ -25,8 +25,8 @@ function SendLoginOtp() {
   };
   const handlePost = async () => {
     console.warn("OTP will send by sms or via Call")
-    try {
-      if (!phone ) {
+    
+     if (!phone ) {
         Alert.alert('Please provide phone.');
         return;
       }
@@ -34,14 +34,18 @@ function SendLoginOtp() {
         username: phone,
       });
 
-      if (response.status === 200) {
+      const res = await response.data
+      if (res.status === 200) {
         asyncData('phone', phone);
         navigation.navigate('loginotp');
       }
-    } catch (err) {
-      console.log(err.response.data);
-      Alert.alert(err.response.data.details);
-    }
+      else if(res.status==405){
+        Alert.alert(res.details)
+      }
+      else{
+        Alert.alert('Try again Later...')
+      }
+    
   };
   return (
     <View style={styles.container}>
@@ -74,6 +78,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 20, // Add space below the input field
+    fontSize: 18,
+    color:'black'
   },
   button: {
     backgroundColor: 'blue',

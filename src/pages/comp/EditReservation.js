@@ -265,6 +265,7 @@ const EditReservation = ({route}) => {
         <Text style={styles.clientName}>{item.name.slice(0,1).toUpperCase()+item.name.slice(1)}</Text>
         <Text style={styles.clientDetails}>{item.adress}</Text>
         <Text style={styles.clientDetails}>Phone: {item.mobile_number}</Text>
+        <Text style={styles.clientDetails}>Preapring For: {item.field}</Text>
         <Text style={styles.clientDetails}>Gender: {item.gender}</Text>
       </View>
 
@@ -584,8 +585,9 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   clientDetails: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#555',
+    fontWeight:'600'
   },
   
   footer: {

@@ -36,7 +36,7 @@ const PasswordRest = () => {
   
     return (
         <View style={styles.container}>
-          <Text style={styles.style}>PassWord Reset</Text>
+          <Text style={styles.style}>Password Reset</Text>
         <TextInput style={styles.input} value={phone}></TextInput>
         <TextInput style={styles.input} value={password} onChangeText={(txt)=>setPassword(txt)}></TextInput>
         <TouchableOpacity style={styles.button} onPress={()=>handelPost()}><Text style={styles.buttonText}>Login</Text></TouchableOpacity>

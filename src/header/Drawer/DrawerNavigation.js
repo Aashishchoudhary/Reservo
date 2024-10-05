@@ -19,7 +19,7 @@ const DrawerNavigation = () => {
         <Drawer.Navigator>
             <Drawer.Screen name='viewlib' component={ViewLibrary} options={{ title: 'Home' }}/>
             <Drawer.Screen name='AddLib' component={AddLibrary} options={{ title: 'Add Library' }}/>
-            <Drawer.Screen name='ChangePassword' component={ChangePassword} options={{ title: 'Change Password' }}/>
+            <Drawer.Screen name='ChangePassword' component={ChangePassword} options={{ title: 'Change Password',headerTitle:'' }}/>
             <Drawer.Screen name='contact' component={Contacts} options={{title:'Contact' , headerTitle:''}}/>
             <Drawer.Screen name='feedback' component={Feedback} options={{title:'FeedBack' }}/>
             <Drawer.Screen name='payment' component={Payment} options={{ title: 'Payment' }}/>

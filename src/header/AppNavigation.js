@@ -32,6 +32,7 @@ import SendLoginOtp from '../pages/login/SendLoginOtp';
 import LoginOtp from '../pages/login/LoginOtp';
 import QR from '../pages/comp/QR';
 import ViewFeedback from '../pages/comp/ViewFeedback';
+import Contacts from '../pages/comp/Contacts';
 
 
 
@@ -61,13 +62,14 @@ const AppNavigation = () => {
         <Stack.Screen name='HomePage' component={HomePage} options={{headerShown:false}}/>
         <Stack.Screen name='Login' component={LoginPass} options={{headerShown:false}}/>
         <Stack.Screen name='Validate' component={ValidateOtp} options={{headerShown:false}}/>
-        <Stack.Screen name='sendloginotp' component={SendLoginOtp}/>
-        <Stack.Screen name='loginotp' component={LoginOtp}/>
+        <Stack.Screen name='sendloginotp' component={SendLoginOtp} options={{headerShown:false}}/>
+        <Stack.Screen name='loginotp' component={LoginOtp} options={{headerShown:false}}/>
         <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
         <Stack.Screen name='SignUp' component={RegisterOtp} options={{headerShown:false}}/>
         <Stack.Screen name='sendForgotPasswordOtp' component={SendPasswordOtp} options={{headerShown:false}}/>
         <Stack.Screen name='ValidateForgotPass' component={ValidatePasswordOtp} options={{headerShown:false}}/>
         <Stack.Screen name='PasswordReset' component={PasswordRest} options={{headerShown:false}}/>
+        <Stack.Screen name='contactus' component={Contacts} options={{title:'Contact US'}}/>
         </>:<Stack.Screen name='drwa' component={DrawerNavigation} options={{headerShown:false}}/>}
         {user&&<>
        
@@ -75,7 +77,7 @@ const AppNavigation = () => {
         <Stack.Screen name='AddReservation' component={AddReservation} options={{title:'Save'}}/>
         <Stack.Screen name='AddLibrary' component={AddLibrary} options={{title:'Add'}}/>
         <Stack.Screen name='ViwAlRe' component={ViewAllReservation} options={{title:''}}/>
-        <Stack.Screen name='editreservation' component={EditReservation} options={{title:'Edit Library'}}/>
+        <Stack.Screen name='editreservation' component={EditReservation} options={{title:'Edit'}}/>
         <Stack.Screen name='collection' component={TotalCollection} options={{title:''}}/>
         <Stack.Screen name='extra' component={ExtraReservation} options={{title:''}}/>
         <Stack.Screen name='editExtra' component={ViewExtra} options={{title:''}}/>

@@ -47,6 +47,8 @@ function ValidatePasswordOtp() {
     text: {
       fontSize: 18,
       marginBottom: 20, // Add space below the text
+      color:'black',
+      fontWeight:'600'
     },
     input: {
       width: '80%', // Adjust the width as needed
@@ -56,6 +58,8 @@ function ValidatePasswordOtp() {
       paddingHorizontal: 12,
       paddingVertical: 10,
       marginBottom: 20, // Add space below the input field
+      color:'black',
+      fontWeight:'600'
     },
     button: {
       backgroundColor: 'blue',

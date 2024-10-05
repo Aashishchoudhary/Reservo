@@ -75,7 +75,7 @@ const ChangeForgotPassword = () => {
   
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>PassWord Change</Text>
+        <Text style={styles.text}>Password Change</Text>
         <TextInput
           style={styles.input}
           placeholder="old Password"

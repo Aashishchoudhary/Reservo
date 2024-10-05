@@ -35,7 +35,7 @@ await AsyncStorage.multiSet(data)
   return (
     <View style={styles.container}>
       <Text style={styles.signUpText}>Sign Up</Text>
-  <TextInput style={styles.input} value={phone} onChangeText={setPhone} placeholder='Phone Number...' />
+  <TextInput style={styles.input} value={phone} onChangeText={setPhone} placeholder='Phone Number...' color={ phone?.length<10?"red":'black'}/>
   <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder='Email Number...' />
   
   <TouchableOpacity style={styles.button} onPress={() => handlePost()}>
@@ -67,6 +67,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 20, // Add space below the input field
+    fontSize: 18,
+    color:'black'
   },
   button: {
     backgroundColor: 'blue',
@@ -84,7 +86,10 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   clickableText: {
+    padding:5,
     color: 'blue',
+    borderBottomColor:'black',
+    borderBottomWidth:1.5,
   },
 });
 

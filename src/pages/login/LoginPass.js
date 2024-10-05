@@ -76,6 +76,7 @@ const LoginPass = () => {
       Alert.alert(err.response.data.details);
     }
   };
+  console.log('type' , typeof(phone))
   return (
  
       <View style={styles.container}>
@@ -84,6 +85,7 @@ const LoginPass = () => {
         value={phone}
         onChangeText={(txt) => setPhone(txt)}
         placeholder="Phone number"
+        color={ phone?.length<10?"red":'black'}
       />
       <TextInput
         style={styles.input}
@@ -95,10 +97,10 @@ const LoginPass = () => {
       <TouchableOpacity style={styles.loginButton} onPress={loginHandle}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity  onPress={() => navigation.navigate('sendloginotp')}>
+      <TouchableOpacity style={styles.btnConatiner} onPress={() => navigation.navigate('sendloginotp')}>
         <Text style={styles.forgotPasswordButton}>Login With Otp</Text>
       </TouchableOpacity>
-      <TouchableOpacity  onPress={() => navigation.navigate('sendForgotPasswordOtp')}>
+      <TouchableOpacity style={styles.btnConatiner} onPress={() => navigation.navigate('sendForgotPasswordOtp')}>
         <Text style={styles.forgotPasswordButton}>Forgot Password</Text>
       </TouchableOpacity>
     </View>
@@ -120,7 +122,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
-    fontSize: 16,
+    fontSize: 18,
+    color:'black'
   },
   loginButton: {
     backgroundColor: '#007bff',
@@ -131,16 +134,19 @@ const styles = StyleSheet.create({
   },
   forgotPasswordButton: {
     
-    padding: 15,
     width: '80%',
     alignItems: 'center',
     color:'blue',
-   
+    borderBottomColor:'black',
+    borderBottomWidth:1.5,
     marginTop: 15,
   },
   buttonText: {
     color: 'white',
     fontSize: 18,
   },
+  btnConatiner:{
+    marginTop:15
+  }
 });
 export default LoginPass;

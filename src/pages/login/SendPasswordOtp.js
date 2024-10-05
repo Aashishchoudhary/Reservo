@@ -20,14 +20,14 @@ function SendPasswordOtp() {
     console.log(key , value)
   };
   const handlePost = async () => {
-    console.warn("OTP will send by sms or via Call")
+    Alert.alert("OTP will send by sms or via Call")
     try {
       if (!phone ) {
         Alert.alert('Please provide phone.');
         return;
       }
       const response = await axios.post(
-        `${url}/validate-phone-forgot//`,
+        `${url}/validate-phone-forgot/`,
         {username: phone},
       );
       
@@ -41,7 +41,7 @@ function SendPasswordOtp() {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Get Otp to Reset password</Text>
+      <Text style={styles.text}>Get otp to Reset password</Text>
       <TextInput
         style={styles.input}
         value={phone}
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     marginBottom: 20, // Add space below the text
+    color:'black',
   },
   input: {
     width: '80%', // Adjust the width as needed
@@ -70,6 +71,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 20, // Add space below the input field
+    color:'black',
+    fontWeight:'700',
+
   },
   button: {
     backgroundColor: 'blue',

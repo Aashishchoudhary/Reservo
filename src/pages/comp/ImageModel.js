@@ -53,10 +53,12 @@ export     const openCamera =async (setUseState) => {
       }
       
      export function yyyymmdd(date) {
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-    
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+  
+      if (month < 10) month = '0' + month;
+      if (day < 10) day = '0' + day;
         const fullDate = `${year}-${month}-${day}`;
         return fullDate;
       }

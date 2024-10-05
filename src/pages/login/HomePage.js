@@ -25,6 +25,9 @@ const HomePage = () => {
           <Text style={styles.buttonText}>Sign-Up</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.contact}  onPress={() => navigation.navigate('contactus')}>
+        <Text style={styles.contactText}>Contact Us</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -32,6 +35,7 @@ const HomePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop:200,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor:'#f9f7f5'
@@ -57,6 +61,20 @@ const styles = StyleSheet.create({
     color: 'black', // Adjust text color
     fontSize: 18, // Adjust text size
   },
+  contact:{
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom:50
+  },
+  contactText:{
+    color:'black',
+    fontSize:20,
+    fontWeight:'bold',
+    borderBottomColor:'black',
+    borderBottomWidth:1.5
+
+
+  }
   // Add styles for your logo image
 });
 export default HomePage;

@@ -98,6 +98,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 20, // Add space below the input field
+    color:'black',
+    fontSize:16,
+    fontWeight:'bold'
   },
   button: {
     backgroundColor: 'blue',
