@@ -105,7 +105,7 @@ const ViewExtra = ({route}) => {
       });
       console.warn("Data Saved")
       await fetchdata()
-      await imageVerify()
+      
     } catch (err) {
       console.log(err.response.data)
       Alert.alert('Something went wrong please try again later');

@@ -147,7 +147,7 @@ const AddReservation = ({route}) => {
       );
       const res = await response.data;
 
-      imageVerify();
+      
       console.warn('Data saved');
       getData();
     } catch (err) {

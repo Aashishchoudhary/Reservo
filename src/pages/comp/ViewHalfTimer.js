@@ -117,7 +117,7 @@ const ViewHalfTimer = ({route}) => {
       });
       console.warn("Data Saved")
       await fetchdata()
-      await imageVerify()
+   
     } catch (e) {
       console.log(e.response.data)
       Alert.alert('Something went wrong please try again later');

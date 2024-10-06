@@ -162,7 +162,7 @@ const EditReservation = ({route}) => {
 
       console.log(response);
       await fetchData();
-      await imageVerify();
+  
     } catch (err) {
       console.log(err.response.data);
       Alert.alert('something went wrong please try agian later');
