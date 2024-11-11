@@ -14,26 +14,26 @@ import {url} from '../../store/url'
 function ValidateOtp() {
   const navigation = useNavigation();
   const [otp, setOtp] = useState('');
-  const [phone, setPhone] = useState('');
+ 
   const [email , setEmail]=useState('')
  
   async function getASyncData() {
-    const value = await AsyncStorage.multiGet(['phone' ,'email'])
+    const value = await AsyncStorage.multiGet(['email'])
     
-    
-    setPhone(value[0][1]);
-    setEmail(value[1][1])
+    console.log(value )
+   
+    setEmail(value[0][1])
   }
   useEffect(()=>{getASyncData()} ,[])
 
   
   const handelPost = async () => {
     try {
-      if (!phone ||!email|| !otp) {
-        Alert.alert('Please provide phone and otp.');
+      if (!email|| !otp) {
+        Alert.alert('Please provide otp.');
         return;
       }
-      const response = await axios.post(`${url}/validate-otp/`, {phone: phone, email:email,otp: otp});
+      const response = await axios.post(`${url}/validate-otp/`, { email:email,otp: otp});
       
       if (response.status === 200) {
         navigation.navigate('Register');
@@ -46,7 +46,7 @@ function ValidateOtp() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Fill the OTP and proceed to register</Text>
-      <TextInput style={styles.input} value={phone} ></TextInput>
+    
       <TextInput style={styles.input} value={email}></TextInput>
       <TextInput
         style={styles.input}

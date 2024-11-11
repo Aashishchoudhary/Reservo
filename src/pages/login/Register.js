@@ -16,10 +16,10 @@ const setAsuncData=async(key , value)=>{
   await AsyncStorage.setItem(key , value)
 }
 async function getASyncData(){
-  const value = await AsyncStorage.multiGet(['phone' ,'email'])
+  const value = await AsyncStorage.multiGet(['email'])
     
     
-    setPhone(value[0][1]);
+  
     setEmail(value[1][1])
 
 }
@@ -47,7 +47,7 @@ useEffect(()=>{getASyncData()} ,[])
   }
   return (
     <View style={styles.container}>
-    <TextInput style={styles.input} value={phone}></TextInput>
+    <TextInput style={styles.input} onChangeText={(e)=>setPhone(e)} value={phone}></TextInput>
     <TextInput style={styles.input} value={email}></TextInput>
     <TextInput style={styles.input} value={password} onChangeText={(txt)=>setpassword(txt)}></TextInput>
     <TouchableOpacity style={styles.button} onPress={()=>handelPost()}><Text style={styles.buttonText}>Register</Text></TouchableOpacity>
