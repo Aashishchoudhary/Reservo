@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useState, useCallback, useRef} from 'react';
+import React, {useState, useCallback, useRef, useEffect} from 'react';
 import {yyyymmdd} from './ImageModel';
 import RadioButtonRN from 'radio-buttons-react-native';
 
@@ -56,6 +56,8 @@ const AddReservation = ({route}) => {
   const [adharcard, setAdharcard] = useState('');
   const [photo, setPhoto] = useState('');
 
+  const [getPhoto , setGetPhoto]=useState(false)
+  const [getAdhar , setGetAdhar]=useState(false)
   // chat room creation  and qr code
   const createRoom = async () => {
     try {
@@ -296,7 +298,12 @@ const AddReservation = ({route}) => {
     
         
             </ViewShot>
-            {item.photo && (
+            <View style={[styles.buttonContainer ,{marginBottom:10}]}>
+            {item.photo && <TouchableOpacity style={styles.button} onPress={()=>setGetPhoto(!getPhoto)}><Text style={styles.buttonText}>{!getPhoto?'Show photo':'Hide Photo'}</Text></TouchableOpacity>}
+            {item.adharcard && <TouchableOpacity style={styles.button} onPress={()=>setGetAdhar(!getAdhar)}><Text style={styles.buttonText}>
+            {!getAdhar?'Show Adhar':'Hide Adhar'}</Text></TouchableOpacity>}
+            </View>
+            {getPhoto && (
               <TouchableOpacity
                 style={styles.imageBtn}
                 onPress={() => btnImage(`${url}${item.photo}`)}>
@@ -306,7 +313,8 @@ const AddReservation = ({route}) => {
                 />
               </TouchableOpacity>
             )}
-            {item.adharcard && (
+           
+            {getAdhar && (
               <TouchableOpacity
                 style={styles.imageBtn}
                 onPress={() => btnImage(`${url}${item.adharcard}`)}>
@@ -639,8 +647,10 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 300,
+     height: 300,
     borderRadius: 10,
+    objectFit:'fill',
+   
   },
   input: {
     height: 40,
