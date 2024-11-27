@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  FlatList,
+ 
   Image,
 } from 'react-native';
 import axios from 'axios';
@@ -53,7 +53,7 @@ const ExtraReservation = ({route}) => {
   if (endDate) updateData.append('end_date', yyyymmdd(endDate));
   if (dob) updateData.append('dob', yyyymmdd(dob));
   if (adress) updateData.append('adress', adress);
-  if (gender) updateData.append('gender', gender['label']);
+  if (gender) updateData.append('gender', gender);
   if (amount) updateData.append('amount', amount);
   if (adharcard) updateData.append('adharcard', adharcard);
   if (photo) updateData.append('photo', photo);

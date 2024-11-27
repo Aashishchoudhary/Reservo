@@ -15,7 +15,7 @@ import {url} from '../../store/url'
 import {useNavigation} from '@react-navigation/native';
 const ViewExtra = ({route}) => {
  
-  const {idt }= route.params
+  const {id,idt }= route.params
    const user = useSelector(state => state.auth.authTokens)
  
    const [data , setData]=useState([])
@@ -30,6 +30,8 @@ const ViewExtra = ({route}) => {
    const [adress , setAdress]= useState('')
    const [adharcard, setAdharcard] = useState('');
    const [photo, setPhoto] = useState('');
+   const [getPhoto , setGetPhoto]=useState(false)
+  const [getAdhar , setGetAdhar]=useState(false)
 
    const updateData = new FormData();
    if (name) updateData.append('name', name);
@@ -38,7 +40,7 @@ const ViewExtra = ({route}) => {
    if (endDate) updateData.append('end_date', yyyymmdd(endDate));
    if (dob)updateData.append('dob' , yyyymmdd(dob))
    if (adress)updateData.append('adress' ,adress)
-   if (gender)updateData.append('gender',gender['label'])
+   if (gender)updateData.append('gender',gender)
    if (amount) updateData.append('amount', amount);
    if (adharcard) updateData.append('adharcard', adharcard);
    if (photo) updateData.append('photo', photo);
@@ -60,7 +62,7 @@ const ViewExtra = ({route}) => {
 
   const fetchdata = async () => {
     try {
-      const response = await axios.get(`${url}/extra-student-view/${idt}/`,{
+      const response = await axios.get(`${url}/extra-student-view/${id}/${idt}/`,{
         headers: {
           Authorization: 'Bearer ' + String(user.access),
         },
@@ -83,7 +85,7 @@ const ViewExtra = ({route}) => {
 
   const deleteData = async () => {
     try {
-      await axios.delete(`${url}/extra-student-view/${idt}/`, {
+      await axios.delete(`${url}/extra-student-view/${id}/${idt}/`, {
         headers: {
           Authorization: 'Bearer ' + String(user.access),
         },
@@ -96,7 +98,7 @@ const ViewExtra = ({route}) => {
   };
   const patchData = async () => {
     try {
-       await axios.patch(`${url}/extra-student-view/${idt}/`,updateData, {
+       await axios.patch(`${url}/extra-student-view/${id}/${idt}/`,updateData, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
@@ -134,7 +136,14 @@ const ViewExtra = ({route}) => {
         // Perform any cleanup here when the component is unmounted or loses focus
       };
     }, []))
-  
+    const selectGender = [
+      {
+        label: 'Male',
+      },
+      {
+        label: 'Female',
+      },
+    ];
   return(
     <KeyboardAwareScrollView>
     <View>
@@ -202,26 +211,32 @@ const ViewExtra = ({route}) => {
   
       
           </ViewShot>
-          {item.photo && (
-            <TouchableOpacity
-              style={styles.imageBtn}
-              onPress={() => btnImage(`${url}${item.photo}`)}>
-              <Image
-                style={styles.image}
-                source={{uri: `${url}${item.photo}`}}
-              />
-            </TouchableOpacity>
-          )}
-          {item.adharcard && (
-            <TouchableOpacity
-              style={styles.imageBtn}
-              onPress={() => btnImage(`${url}${item.adharcard}`)}>
-              <Image
-                style={styles.image}
-                source={{uri: `${url}${item.adharcard}`}}
-              />
-            </TouchableOpacity>
-          )}
+          <View style={[styles.buttonContainer ,{marginBottom:10}]}>
+            {item.photo && <TouchableOpacity style={styles.button} onPress={()=>setGetPhoto(!getPhoto)}><Text style={styles.buttonText}>{!getPhoto?'Show photo':'Hide Photo'}</Text></TouchableOpacity>}
+            {item.adharcard && <TouchableOpacity style={styles.button} onPress={()=>setGetAdhar(!getAdhar)}><Text style={styles.buttonText}>
+            {!getAdhar?'Show Adhar':'Hide Adhar'}</Text></TouchableOpacity>}
+            </View>
+            {getPhoto && (
+              <TouchableOpacity
+                style={styles.imageBtn}
+                onPress={() => btnImage(`${url}${item.photo}`)}>
+                <Image
+                  style={styles.image}
+                  source={{uri: `${url}${item.photo}`}}
+                />
+              </TouchableOpacity>
+            )}
+           
+            {getAdhar && (
+              <TouchableOpacity
+                style={styles.imageBtn}
+                onPress={() => btnImage(`${url}${item.adharcard}`)}>
+                <Image
+                  style={styles.image}
+                  source={{uri: `${url}${item.adharcard}`}}
+                />
+              </TouchableOpacity>
+            )}
         </View>
       ))}
       <View style={styles.buttonContainer}>
@@ -269,7 +284,11 @@ const ViewExtra = ({route}) => {
 
             
            
-
+<RadioButtonRN
+            data={selectGender}
+            selectedBtn={e => setGender(e['label'])}
+            initial={x.gender=="Male"?1:2}
+          />
             <View style={styles.dateCon}>
               <Text style={styles.dateLabel}>End Date</Text>
               <DatePicker
@@ -280,34 +299,20 @@ const ViewExtra = ({route}) => {
               />
             </View>
             <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
-              {x.photo?.length > 0 ? (
-                <Image
-                  source={{
-                    uri: photo ? photo.uri : `${url}${x.photo}`,
-                  }}
-                  style={styles.image}
-                />
-              ) : (
+              
                 <Image
                   source={{
                     uri: photo
                       ? photo.uri
-                      : 'https://cdn.pixabay.com/photo/2022/11/09/00/44/aadhaar-card-7579588_1280.png',
+                      : 'https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg',
                   }}
                   style={styles.image}
                 />
-              )}
+              
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => imageSelectBox(setAdharcard)}>
-              {x.adharcard?.length > 0 ? (
-                <Image
-                  source={{
-                    uri: adharcard ? adharcard.uri : `${url}${x.adharcard}`,
-                  }}
-                  style={styles.image}
-                />
-              ) : (
+              
                 <Image
                   source={{
                     uri: adharcard
@@ -316,7 +321,7 @@ const ViewExtra = ({route}) => {
                   }}
                   style={styles.image}
                 />
-              )}
+            
             </TouchableOpacity>
           </View>
         ))}

@@ -8,7 +8,6 @@ import {
   RefreshControl,
   TextInput,
   TouchableOpacity,
-  FlatList,
   Alert,
 } from 'react-native';
 import axios from 'axios';
@@ -151,7 +150,7 @@ const ViewAllReservation = ({route}) => {
           <TouchableOpacity key={item.seat_num}
             onPress={() =>
               navigation.navigate('editreservation', {
-                idt: item?.ser?.map(y => y.id), LibId:LibId
+                idt: item?.ser.id, LibId:LibId
               })
             }
             style={[styles.container ,item.seat_num%2 ? styles.evenStyle : styles.oddStyle]}>
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'lightgray',
     padding: 10,
     marginTop: 5,
-    height:"30%",
+    height:"15%",
     borderRadius:10,
   },
   evenStyle: {

@@ -58,6 +58,49 @@ const AddReservation = ({route}) => {
 
   const [getPhoto , setGetPhoto]=useState(false)
   const [getAdhar , setGetAdhar]=useState(false)
+
+  const [changeSeat, setChangeSeat] = useState(false);
+  const [vaccentSeatData, setVaccentSeatData] = useState([]);
+
+
+
+  const fetch_vaccent_seat = async () => {
+    const response = await axios.get(`${url}/vaccent-seats/${Libid}/`, {
+      headers: {
+        Authorization: "Bearer " +  String(user.access),
+      },
+    });
+    const res = await response.data;
+    console.log(res);
+    setVaccentSeatData(res);
+  };
+
+  const change_seat_number = async (seat_id) => {
+    try {
+      await axios.patch(
+        `${url}/change-seat/${Libid}/${SeatNum}/`,
+        { change_id: seat_id },
+        {
+          headers: {
+            Authorization: "Bearer " +  String(user.access),
+          },
+        }
+      );
+
+      Alert.alert("Seat changed");
+      
+      navigation.push('editreservation', {
+        idt: seat_id, LibId:Libid
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const get_vaccent_seat = () => {
+    fetch_vaccent_seat();
+    setChangeSeat(!changeSeat);
+    console.log(changeSeat)
+  };
   // chat room creation  and qr code
   const createRoom = async () => {
     try {
@@ -113,7 +156,7 @@ const AddReservation = ({route}) => {
           ? new Date(res.seat_data[0]['end_date'])
           : new Date(),
       );
-      // setstdate(res.data[0]['start_date']? new Date(res.data[0]['start_date']):new Date())
+      
       dispatch(setChecking(true));
     } catch (e) {
       console.log('error ', e);
@@ -237,6 +280,28 @@ const AddReservation = ({route}) => {
         )}
         {data?.seat_data?.map(item => (
           <View key={item.id}>
+             <View style={[styles.buttonContainer,{width:'40%'}]}>
+                  <TouchableOpacity
+                   
+                    onPress={() => get_vaccent_seat()}
+                    style={[styles.button,{ marginTop: "5px", marginLeft: "10px" , alignItems: 'center'}]}
+                  >
+                   <Text style={{color:"white",justifyContent:'center'}}>Chanage Seat</Text> 
+                  </TouchableOpacity>
+                </View>
+                {changeSeat && (
+                  <View style={styles.seat}>
+                    {vaccentSeatData?.map((item) => (
+                      <TouchableOpacity
+                        key={item.id}
+                        onPress={() => change_seat_number(item.id)}
+                        style={styles.chair}
+                      >
+                        <Text style={styles.chairNumber}>{item.seat_num}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
             <ViewShot
               style={styles.container}
               ref={ref}
@@ -293,7 +358,7 @@ const AddReservation = ({route}) => {
 
       {/* Footer */}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Product made by Labeo</Text>
+        <Text style={styles.footerText}>A Aashish Kalwaniya Product</Text>
       </View>
     
         
@@ -466,7 +531,11 @@ const AddReservation = ({route}) => {
               />
 
               
-             
+<RadioButtonRN
+            data={selectGender}
+            selectedBtn={e => setGender(e['label'])}
+            initial={x.gender=="Male"?1:2}
+          />
 
               <View style={styles.dateCon}>
                 <Text style={styles.dateLabel}>From</Text>
@@ -485,34 +554,20 @@ const AddReservation = ({route}) => {
                 />
               </View>
               <TouchableOpacity onPress={() => imageSelectBox(setPhoto)}>
-                {x.photo?.length > 0 ? (
-                  <Image
-                    source={{
-                      uri: photo ? photo.uri : `${url}${x.photo}`,
-                    }}
-                    style={styles.image}
-                  />
-                ) : (
+              
                   <Image
                     source={{
                       uri: photo
                         ? photo.uri
-                        : 'https://cdn.pixabay.com/photo/2022/11/09/00/44/aadhaar-card-7579588_1280.png',
+                        : 'https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg',
                     }}
                     style={styles.image}
                   />
-                )}
+               
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => imageSelectBox(setAdharcard)}>
-                {x.adharcard?.length > 0 ? (
-                  <Image
-                    source={{
-                      uri: adharcard ? adharcard.uri : `${url}${x.adharcard}`,
-                    }}
-                    style={styles.image}
-                  />
-                ) : (
+              
                   <Image
                     source={{
                       uri: adharcard
@@ -521,7 +576,7 @@ const AddReservation = ({route}) => {
                     }}
                     style={styles.image}
                   />
-                )}
+               
               </TouchableOpacity>
             </View>
           ))}
@@ -744,6 +799,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#FFFFFF',
+  },
+  chair: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'lightgreen',
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    cursor: 'pointer', // This won't work in React Native. Consider using TouchableOpacity
+  },
+  chairNumber: {
+    fontSize: 16,
+  },
+  seat: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
+    width: '100%',
   },
 });
 
